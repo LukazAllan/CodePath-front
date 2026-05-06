@@ -355,7 +355,7 @@ html, body { width: 100%; height: 100%; font-family: var(--font); background: va
 /* ════ CONFIGURAÇÕES ═══════════════════════════ */
 #screen-config { padding: 48px 40px 60px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
 
-.config-section { width: 100%; max-width: 520px; background: var(--clr-white); border-radius: var(--radius-xl); border: 1.5px solid var(--clr-gray-light); overflow: hidden; }
+.config-section { width: 100%; max-width: 520px; background: var(--clr-white); border-radius: var(--radius-xl); border: 1.5px solid var(--clr-gray-light); overflow: clip; }
 .config-section-title { padding: 14px 24px 12px; font-size: var(--fz-xs); font-weight: 900; color: var(--clr-gray); text-transform: uppercase; letter-spacing: .6px; border-bottom: 1px solid var(--clr-gray-light); }
 
 .config-row {
@@ -383,6 +383,6 @@ html, body { width: 100%; height: 100%; font-family: var(--font); background: va
 }
 .toggle.on::after { transform: translateX(20px); }
 
-.danger-zone { width: 100%; max-width: 520px; background: var(--clr-white); border-radius: var(--radius-xl); border: 1.5px solid #fecaca; overflow: hidden; }
+.danger-zone { width: 100%; max-width: 520px; background: var(--clr-white); border-radius: var(--radius-xl); border: 1.5px solid #fecaca; overflow: clip; }
 .danger-zone .config-section-title { color: var(--clr-red); border-color: #fecaca; }
 .danger-zone .config-row:hover { background: var(--clr-red-light); }

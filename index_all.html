@@ -256,9 +256,306 @@
 
     </div>
 
+    <!-- ── CATÁLOGO DE CURSOS (overlay screen) ── -->
+    <div class="screen" id="screen-catalogo">
+      <div class="catalog-header">
+        <button class="btn-back" onclick="closeCatalog()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+          Voltar
+        </button>
+        <div class="catalog-title-wrap">
+          <div class="catalog-title">Catálogo de Cursos</div>
+          <div class="catalog-subtitle">Adicione novos cursos à sua área de gerência</div>
+        </div>
+      </div>
+
+      <div class="catalog-search-wrap">
+        <div class="catalog-search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="catalog-search-input" type="text" placeholder="Buscar cursos…" oninput="filterCatalog(this.value)">
+        </div>
+        <div class="catalog-filters">
+          <button class="filter-chip active" onclick="setFilter(this,'todos')">Todos</button>
+          <button class="filter-chip" onclick="setFilter(this,'frontend')">Frontend</button>
+          <button class="filter-chip" onclick="setFilter(this,'backend')">Backend</button>
+          <button class="filter-chip" onclick="setFilter(this,'dados')">Dados</button>
+          <button class="filter-chip" onclick="setFilter(this,'devops')">DevOps</button>
+        </div>
+      </div>
+
+      <div class="catalog-grid" id="catalogGrid">
+
+        <div class="catalog-card" data-category="frontend" data-added="false">
+          <div class="catalog-card-banner" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">
+            <span class="catalog-card-emoji">⚛️</span>
+          </div>
+          <div class="catalog-card-body">
+            <div class="catalog-card-tag frontend">Frontend</div>
+            <div class="catalog-card-name">React do Zero</div>
+            <div class="catalog-card-desc">Componentes, hooks, context e roteamento com React 19.</div>
+            <div class="catalog-card-meta">
+              <span>👥 2.3k alunos</span>
+              <span>⭐ 4.9</span>
+              <span>📚 48 lições</span>
+            </div>
+            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+          </div>
+        </div>
+
+        <div class="catalog-card" data-category="backend" data-added="false">
+          <div class="catalog-card-banner" style="background:linear-gradient(135deg,#10b981,#047857)">
+            <span class="catalog-card-emoji">🐍</span>
+          </div>
+          <div class="catalog-card-body">
+            <div class="catalog-card-tag backend">Backend</div>
+            <div class="catalog-card-name">Python para Backend</div>
+            <div class="catalog-card-desc">FastAPI, Pydantic, autenticação JWT e deploy em produção.</div>
+            <div class="catalog-card-meta">
+              <span>👥 1.8k alunos</span>
+              <span>⭐ 4.8</span>
+              <span>📚 62 lições</span>
+            </div>
+            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+          </div>
+        </div>
+
+        <div class="catalog-card" data-category="dados" data-added="false">
+          <div class="catalog-card-banner" style="background:linear-gradient(135deg,#f59e0b,#b45309)">
+            <span class="catalog-card-emoji">📊</span>
+          </div>
+          <div class="catalog-card-body">
+            <div class="catalog-card-tag dados">Dados</div>
+            <div class="catalog-card-name">Data Science com Python</div>
+            <div class="catalog-card-desc">Pandas, NumPy, visualização de dados e Machine Learning básico.</div>
+            <div class="catalog-card-meta">
+              <span>👥 3.1k alunos</span>
+              <span>⭐ 4.7</span>
+              <span>📚 75 lições</span>
+            </div>
+            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+          </div>
+        </div>
+
+        <div class="catalog-card" data-category="devops" data-added="false">
+          <div class="catalog-card-banner" style="background:linear-gradient(135deg,#6366f1,#4338ca)">
+            <span class="catalog-card-emoji">🐳</span>
+          </div>
+          <div class="catalog-card-body">
+            <div class="catalog-card-tag devops">DevOps</div>
+            <div class="catalog-card-name">Docker & Kubernetes</div>
+            <div class="catalog-card-desc">Containerização, orquestração e CI/CD com GitHub Actions.</div>
+            <div class="catalog-card-meta">
+              <span>👥 980 alunos</span>
+              <span>⭐ 4.9</span>
+              <span>📚 54 lições</span>
+            </div>
+            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+          </div>
+        </div>
+
+        <div class="catalog-card" data-category="frontend" data-added="false">
+          <div class="catalog-card-banner" style="background:linear-gradient(135deg,#ec4899,#9d174d)">
+            <span class="catalog-card-emoji">🎨</span>
+          </div>
+          <div class="catalog-card-body">
+            <div class="catalog-card-tag frontend">Frontend</div>
+            <div class="catalog-card-name">CSS Avançado & Animações</div>
+            <div class="catalog-card-desc">Grid, Flexbox, variáveis CSS, keyframes e design responsivo.</div>
+            <div class="catalog-card-meta">
+              <span>👥 1.5k alunos</span>
+              <span>⭐ 4.6</span>
+              <span>📚 38 lições</span>
+            </div>
+            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+          </div>
+        </div>
+
+        <div class="catalog-card" data-category="backend" data-added="false">
+          <div class="catalog-card-banner" style="background:linear-gradient(135deg,#14b8a6,#0f766e)">
+            <span class="catalog-card-emoji">☕</span>
+          </div>
+          <div class="catalog-card-body">
+            <div class="catalog-card-tag backend">Backend</div>
+            <div class="catalog-card-name">Java & Spring Boot</div>
+            <div class="catalog-card-desc">APIs REST, JPA, segurança com Spring Security e testes unitários.</div>
+            <div class="catalog-card-meta">
+              <span>👥 2.0k alunos</span>
+              <span>⭐ 4.8</span>
+              <span>📚 80 lições</span>
+            </div>
+            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+          </div>
+        </div>
+
+        <div class="catalog-card" data-category="dados" data-added="false">
+          <div class="catalog-card-banner" style="background:linear-gradient(135deg,#f97316,#c2410c)">
+            <span class="catalog-card-emoji">🤖</span>
+          </div>
+          <div class="catalog-card-body">
+            <div class="catalog-card-tag dados">Dados</div>
+            <div class="catalog-card-name">Inteligência Artificial</div>
+            <div class="catalog-card-desc">Redes neurais, NLP, visão computacional e LLMs na prática.</div>
+            <div class="catalog-card-meta">
+              <span>👥 4.2k alunos</span>
+              <span>⭐ 5.0</span>
+              <span>📚 90 lições</span>
+            </div>
+            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+          </div>
+        </div>
+
+        <div class="catalog-card" data-category="devops" data-added="false">
+          <div class="catalog-card-banner" style="background:linear-gradient(135deg,#64748b,#334155)">
+            <span class="catalog-card-emoji">☁️</span>
+          </div>
+          <div class="catalog-card-body">
+            <div class="catalog-card-tag devops">DevOps</div>
+            <div class="catalog-card-name">AWS Cloud Foundations</div>
+            <div class="catalog-card-desc">EC2, S3, Lambda, RDS e arquitetura serverless na AWS.</div>
+            <div class="catalog-card-meta">
+              <span>👥 1.2k alunos</span>
+              <span>⭐ 4.7</span>
+              <span>📚 66 lições</span>
+            </div>
+            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div><!-- /screens -->
 </div><!-- /main -->
 </div><!-- /app -->
+
+<!-- ══ TOAST NOTIFICATION ══════════════════════ -->
+<div class="toast" id="toast"></div>
+
+<style>
+/* ════ CATÁLOGO ════════════════════════════════ */
+#screen-catalogo { padding: 0; display: flex; flex-direction: column; align-items: center; }
+
+.catalog-header {
+  width: 100%; padding: 28px 40px 20px;
+  display: flex; align-items: center; gap: 20px;
+  border-bottom: 1.5px solid var(--clr-gray-light);
+  background: var(--clr-white); flex-shrink: 0;
+  position: sticky; top: 0; z-index: 5;
+}
+.btn-back {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 16px; border-radius: var(--radius-full);
+  border: 2px solid var(--clr-gray-light);
+  background: var(--clr-white); color: var(--clr-gray);
+  font-family: var(--font); font-size: var(--fz-sm); font-weight: 800;
+  cursor: pointer; flex-shrink: 0;
+  transition: all var(--dur) var(--ease);
+}
+.btn-back:hover { border-color: var(--clr-main); color: var(--clr-main); background: var(--clr-main-light); }
+
+.catalog-title-wrap {}
+.catalog-title { font-size: var(--fz-xl); font-weight: 900; color: var(--clr-black); }
+.catalog-subtitle { font-size: var(--fz-sm); color: var(--clr-gray); font-weight: 600; margin-top: 2px; }
+
+.catalog-search-wrap {
+  width: 100%; max-width: 760px; padding: 24px 40px 0;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.catalog-search-box {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--clr-white); border: 2px solid var(--clr-gray-light);
+  border-radius: var(--radius-full); padding: 10px 18px;
+  transition: border-color var(--dur) var(--ease);
+}
+.catalog-search-box:focus-within { border-color: var(--clr-main); }
+.catalog-search-box svg { color: var(--clr-gray); flex-shrink: 0; }
+.catalog-search-input {
+  flex: 1; border: none; outline: none; background: transparent;
+  font-family: var(--font); font-size: var(--fz-md); color: var(--clr-black);
+}
+.catalog-search-input::placeholder { color: var(--clr-gray); }
+
+.catalog-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.filter-chip {
+  padding: 6px 16px; border-radius: var(--radius-full);
+  border: 2px solid var(--clr-gray-light);
+  background: var(--clr-white); color: var(--clr-gray);
+  font-family: var(--font); font-size: var(--fz-sm); font-weight: 800;
+  cursor: pointer; transition: all var(--dur) var(--ease);
+}
+.filter-chip:hover  { border-color: var(--clr-main); color: var(--clr-main); }
+.filter-chip.active { background: var(--clr-main); border-color: var(--clr-main); color: #fff; }
+
+.catalog-grid {
+  width: 100%; max-width: 760px; padding: 24px 40px 60px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px;
+}
+
+.catalog-card {
+  background: var(--clr-white); border-radius: var(--radius-lg);
+  border: 1.5px solid var(--clr-gray-light);
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.catalog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.catalog-card.hidden { display: none; }
+
+.catalog-card-banner {
+  height: 88px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.catalog-card-emoji { font-size: 40px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.25)); }
+
+.catalog-card-body {
+  padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 8px; flex: 1;
+}
+
+.catalog-card-tag {
+  font-size: var(--fz-xs); font-weight: 900; padding: 3px 10px;
+  border-radius: var(--radius-full); width: fit-content;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.catalog-card-tag.frontend { background: #eff6ff; color: var(--clr-blue); }
+.catalog-card-tag.backend  { background: var(--clr-main-light); color: var(--clr-main-dark); }
+.catalog-card-tag.dados    { background: #fef9c3; color: #854d0e; }
+.catalog-card-tag.devops   { background: #ede9fe; color: var(--clr-purple); }
+
+.catalog-card-name { font-size: var(--fz-md); font-weight: 900; color: var(--clr-black); }
+.catalog-card-desc { font-size: var(--fz-sm); color: var(--clr-gray); font-weight: 600; line-height: 1.5; }
+
+.catalog-card-meta {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  font-size: var(--fz-xs); font-weight: 700; color: var(--clr-gray);
+  padding-top: 4px; border-top: 1px solid var(--clr-gray-light); margin-top: 2px;
+}
+
+.btn-catalog-add {
+  margin-top: auto; padding: 10px 0;
+  background: var(--clr-main); color: #fff;
+  font-family: var(--font); font-size: var(--fz-sm); font-weight: 800;
+  border: none; border-radius: var(--radius-md);
+  cursor: pointer; transition: all var(--dur) var(--ease);
+  box-shadow: 0 3px 0 var(--clr-main-dark);
+}
+.btn-catalog-add:hover { background: var(--clr-main-sec); transform: translateY(-1px); }
+.btn-catalog-add:active { transform: translateY(2px); box-shadow: none; }
+.btn-catalog-add.added {
+  background: var(--clr-gray-light); color: var(--clr-gray);
+  box-shadow: none; cursor: default; pointer-events: none;
+}
+
+/* ════ TOAST ════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--clr-black); color: #fff;
+  font-family: var(--font); font-size: var(--fz-sm); font-weight: 700;
+  padding: 12px 22px; border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md); pointer-events: none;
+  opacity: 0; transition: opacity .3s var(--ease), transform .3s var(--ease);
+  z-index: 999; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
 
 <script>
 const navItems = document.querySelectorAll('.nav-item[data-target]');
@@ -280,7 +577,76 @@ navItems.forEach(item => item.addEventListener('click', () => navigate(item.data
 
 window.addEventListener('load', () => {
   setTimeout(() => { const f = document.getElementById('xpFill'); if (f) f.style.width = '35%'; }, 400);
+
+  // Botão "Novo Curso"
+  document.querySelector('.btn-add').addEventListener('click', openCatalog);
 });
+
+function openCatalog() {
+  // Mantém a nav item de gerência ativa visualmente
+  screens.forEach(s => s.classList.remove('active'));
+  const cat = document.getElementById('screen-catalogo');
+  cat.classList.add('active');
+  cat.scrollTop = 0;
+  current = 'catalogo';
+  // Reseta busca e filtro
+  document.querySelector('.catalog-search-input').value = '';
+  setFilterActive('todos');
+  filterCatalog('');
+}
+
+function closeCatalog() {
+  screens.forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-gerencia').classList.add('active');
+  current = 'gerencia';
+}
+
+let activeFilter = 'todos';
+
+function setFilter(btn, cat) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = cat;
+  const query = document.querySelector('.catalog-search-input').value;
+  filterCatalog(query);
+}
+
+function setFilterActive(cat) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-chip').forEach(c => {
+    c.classList.toggle('active', c.textContent.toLowerCase() === cat || (cat === 'todos' && c.textContent === 'Todos'));
+  });
+}
+
+function filterCatalog(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('.catalog-card').forEach(card => {
+    const cat = card.dataset.category;
+    const name = card.querySelector('.catalog-card-name').textContent.toLowerCase();
+    const desc = card.querySelector('.catalog-card-desc').textContent.toLowerCase();
+    const matchCat = activeFilter === 'todos' || cat === activeFilter;
+    const matchQ   = !q || name.includes(q) || desc.includes(q);
+    card.classList.toggle('hidden', !(matchCat && matchQ));
+  });
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function addCourse(btn) {
+  if (btn.classList.contains('added')) return;
+  const name = btn.closest('.catalog-card').querySelector('.catalog-card-name').textContent;
+  btn.textContent = '✓ Adicionado';
+  btn.classList.add('added');
+  btn.closest('.catalog-card').dataset.added = 'true';
+  showToast(`✅ "${name}" adicionado aos seus cursos!`);
+}
 
 function toggleSwitch(row) {
   const t = row.querySelector('.toggle');
