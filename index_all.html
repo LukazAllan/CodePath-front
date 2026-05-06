@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodePath</title>
+    <link rel="stylesheet" href="css/maisum.css">
+</head>
+<body>
+<div class="app">
+
+<!-- ══ SIDEBAR ══════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">&lt;/&gt;</div>
+    <span class="logo-text">CodePath</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-item active" data-target="aprender">
+      <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+      Aprender
+    </div>
+    <div class="nav-item" data-target="perfil">
+      <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg></span>
+      Perfil
+    </div>
+    <div class="nav-item" data-target="gerencia">
+      <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+      Gerência
+    </div>
+    <div class="nav-item" data-target="config">
+      <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></span>
+      Configurações
+    </div>
+  </nav>
+
+  <div class="sidebar-user">
+    <div class="user-info">
+      <div class="user-avatar">AL</div>
+      <div>
+        <div class="user-name">Allan Lucas</div>
+        <div class="user-level">Nível 4 · TypeScript</div>
+      </div>
+    </div>
+    <button class="btn-exit">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sair
+    </button>
+  </div>
+</aside>
+
+<!-- ══ MAIN ══════════════════════════════════════ -->
+<div class="main">
+  <header class="topbar">
+    <div class="course-badge">
+      <div class="course-dot">🟦</div>
+      <div class="course-info">
+        <div class="course-label">Curso ativo</div>
+        <div class="course-name">TypeScript do Zero</div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-pill hearts"><span class="pill-icon">❤️</span>5</div>
+      <div class="stat-pill xp"><span class="pill-icon">⚡</span>420 XP</div>
+    </div>
+  </header>
+
+  <div class="screens">
+
+    <!-- ── APRENDER ─────────────────────────── -->
+    <div class="screen active" id="screen-aprender">
+      <div class="xp-bar-wrap">
+        <div class="xp-bar-label"><span>Nível 4</span><span>420 / 1200 XP</span></div>
+        <div class="xp-bar-track"><div class="xp-bar-fill" id="xpFill"></div></div>
+      </div>
+
+      <div class="trail-section-header green">
+        <span class="section-hicon">🟢</span>
+        <div><div class="section-htitle">Seção 1 — Fundamentos</div><div class="section-hsub">Tipos, variáveis e funções básicas</div></div>
+      </div>
+      <div class="trail-path">
+        <div class="bubble-row pos-center"><div class="bubble-wrap"><div class="bubble-tooltip">Introdução ao TypeScript</div><div class="bubble done">🟢</div><div class="bubble-stars"><div class="star"></div><div class="star"></div><div class="star"></div></div></div></div>
+        <div class="zz-connector done"></div>
+        <div class="bubble-row pos-right"><div class="bubble-wrap"><div class="bubble-tooltip">Tipos Primitivos</div><div class="bubble done">📦</div><div class="bubble-stars"><div class="star"></div><div class="star"></div><div class="star empty"></div></div></div></div>
+        <div class="zz-connector done"></div>
+        <div class="bubble-row pos-center"><div class="bubble-wrap"><div class="bubble-tooltip">Funções e Tipagem</div><div class="bubble done">⚙️</div><div class="bubble-stars"><div class="star"></div><div class="star empty"></div><div class="star empty"></div></div></div></div>
+        <div class="zz-connector done"></div>
+        <div class="bubble-row pos-left"><div class="bubble-wrap"><div class="bubble-tooltip">Arrays e Tuplas</div><div class="bubble done">🗂️</div><div class="bubble-stars"><div class="star"></div><div class="star"></div><div class="star"></div></div></div></div>
+        <div class="zz-connector done"></div>
+        <div class="bubble-row pos-center"><div class="bubble-wrap"><div class="bubble-tooltip">Interfaces e Types</div><div class="bubble active">🏆</div></div></div>
+        <div class="zz-connector locked"></div>
+        <div class="bubble-row pos-right"><div class="bubble-wrap"><div class="bubble-tooltip">🔒 Bloqueado</div><div class="bubble locked">🔒</div></div></div>
+      </div>
+
+      <button class="btn-start">▶ Iniciar Lição</button>
+      <div style="height:36px"></div>
+
+      <div class="trail-section-header purple">
+        <span class="section-hicon">🟣</span>
+        <div><div class="section-htitle">Seção 2 — Orientação a Objetos</div><div class="section-hsub">Classes, herança e encapsulamento</div></div>
+      </div>
+      <div class="trail-path">
+        <div class="bubble-row pos-center"><div class="bubble-wrap"><div class="bubble-tooltip">🔒 Bloqueado</div><div class="bubble locked">🔒</div></div></div>
+        <div class="zz-connector locked"></div>
+        <div class="bubble-row pos-left"><div class="bubble-wrap"><div class="bubble-tooltip">🔒 Bloqueado</div><div class="bubble locked">🔒</div></div></div>
+        <div class="zz-connector locked"></div>
+        <div class="bubble-row pos-center"><div class="bubble-wrap"><div class="bubble-tooltip">🔒 Bloqueado</div><div class="bubble locked">🔒</div></div></div>
+        <div class="zz-connector locked"></div>
+        <div class="bubble-row pos-right"><div class="bubble-wrap"><div class="bubble-tooltip">🔒 Bloqueado</div><div class="bubble locked">🔒</div></div></div>
+      </div>
+      <div style="height:36px"></div>
+
+      <div class="trail-section-header orange">
+        <span class="section-hicon">🟠</span>
+        <div><div class="section-htitle">Seção 3 — Generics & Avançado</div><div class="section-hsub">Genéricos, utilitários e decorators</div></div>
+      </div>
+      <div class="trail-path">
+        <div class="bubble-row pos-center"><div class="bubble-wrap"><div class="bubble-tooltip">🔒 Bloqueado</div><div class="bubble locked">🔒</div></div></div>
+        <div class="zz-connector locked"></div>
+        <div class="bubble-row pos-right"><div class="bubble-wrap"><div class="bubble-tooltip">🔒 Bloqueado</div><div class="bubble locked">🔒</div></div></div>
+        <div class="zz-connector locked"></div>
+        <div class="bubble-row pos-left"><div class="bubble-wrap"><div class="bubble-tooltip">🔒 Bloqueado</div><div class="bubble locked">🔒</div></div></div>
+      </div>
+      <div style="height:60px"></div>
+    </div>
+
+    <!-- ── PERFIL ───────────────────────────── -->
+    <div class="screen" id="screen-perfil">
+      <div class="profile-hero">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar">AL</div>
+          <div class="profile-level-badge">Nv. 4</div>
+        </div>
+        <div class="profile-name">Allan Lucas</div>
+        <div class="profile-tag">@allanlucas · Membro desde jan/2025</div>
+        <div class="profile-course-pill">🟦 TypeScript do Zero</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card green">
+          <div class="stat-card-icon">⚡</div>
+          <div class="stat-card-value">420</div>
+          <div class="stat-card-label">XP Total</div>
+        </div>
+        <div class="stat-card yellow">
+          <div class="stat-card-icon">🔥</div>
+          <div class="stat-card-value">7</div>
+          <div class="stat-card-label">Dias Seguidos</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-card-icon">✅</div>
+          <div class="stat-card-value">24</div>
+          <div class="stat-card-label">Lições Feitas</div>
+        </div>
+      </div>
+
+      <div class="streak-section">
+        <div class="streak-title">🗓️ Atividade da semana</div>
+        <div class="week-strip">
+          <div class="day-dot"><div class="day-dot-label">Seg</div><div class="day-dot-circle done">✓</div></div>
+          <div class="day-dot"><div class="day-dot-label">Ter</div><div class="day-dot-circle done">✓</div></div>
+          <div class="day-dot"><div class="day-dot-label">Qua</div><div class="day-dot-circle done">✓</div></div>
+          <div class="day-dot"><div class="day-dot-label">Qui</div><div class="day-dot-circle miss">✗</div></div>
+          <div class="day-dot"><div class="day-dot-label">Sex</div><div class="day-dot-circle done">✓</div></div>
+          <div class="day-dot"><div class="day-dot-label">Sáb</div><div class="day-dot-circle done">✓</div></div>
+          <div class="day-dot"><div class="day-dot-label">Dom</div><div class="day-dot-circle today">●</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── GERÊNCIA ──────────────────────────── -->
+    <div class="screen" id="screen-gerencia">
+      <div class="mgmt-summary">
+        <div class="summary-card"><div class="summary-value" style="color:var(--clr-main)">4</div><div class="summary-label">Cursos Ativos</div></div>
+        <div class="summary-card"><div class="summary-value" style="color:var(--clr-blue)">312</div><div class="summary-label">Alunos Total</div></div>
+        <div class="summary-card"><div class="summary-value" style="color:var(--clr-orange)">89%</div><div class="summary-label">Taxa Conclusão</div></div>
+        <div class="summary-card"><div class="summary-value" style="color:var(--clr-purple)">4.8★</div><div class="summary-label">Avaliação Média</div></div>
+      </div>
+
+      <div class="mgmt-header">
+        <div class="mgmt-title">Meus Cursos</div>
+        <button class="btn-add">+ Novo Curso</button>
+      </div>
+
+      <div class="mgmt-grid">
+        <div class="mgmt-card">
+          <div class="mgmt-card-top"><div class="mgmt-card-icon green">🟦</div><div><div class="mgmt-card-name">TypeScript do Zero</div><div class="mgmt-card-sub">142 alunos matriculados</div></div></div>
+          <div class="mgmt-progress-wrap"><div class="mgmt-progress-info"><span>Progresso médio</span><span>68%</span></div><div class="mgmt-progress-track"><div class="mgmt-progress-fill green" style="width:68%"></div></div></div>
+          <div class="mgmt-footer"><span class="mgmt-students">👥 142 alunos</span><span class="mgmt-badge active">● Ativo</span></div>
+        </div>
+        <div class="mgmt-card">
+          <div class="mgmt-card-top"><div class="mgmt-card-icon purple">🟣</div><div><div class="mgmt-card-name">React Avançado</div><div class="mgmt-card-sub">98 alunos matriculados</div></div></div>
+          <div class="mgmt-progress-wrap"><div class="mgmt-progress-info"><span>Progresso médio</span><span>45%</span></div><div class="mgmt-progress-track"><div class="mgmt-progress-fill purple" style="width:45%"></div></div></div>
+          <div class="mgmt-footer"><span class="mgmt-students">👥 98 alunos</span><span class="mgmt-badge active">● Ativo</span></div>
+        </div>
+        <div class="mgmt-card">
+          <div class="mgmt-card-top"><div class="mgmt-card-icon orange">🟠</div><div><div class="mgmt-card-name">Node.js & APIs</div><div class="mgmt-card-sub">54 alunos matriculados</div></div></div>
+          <div class="mgmt-progress-wrap"><div class="mgmt-progress-info"><span>Progresso médio</span><span>31%</span></div><div class="mgmt-progress-track"><div class="mgmt-progress-fill orange" style="width:31%"></div></div></div>
+          <div class="mgmt-footer"><span class="mgmt-students">👥 54 alunos</span><span class="mgmt-badge paused">● Pausado</span></div>
+        </div>
+        <div class="mgmt-card">
+          <div class="mgmt-card-top"><div class="mgmt-card-icon blue">🔵</div><div><div class="mgmt-card-name">SQL & Banco de Dados</div><div class="mgmt-card-sub">Em criação</div></div></div>
+          <div class="mgmt-progress-wrap"><div class="mgmt-progress-info"><span>Conteúdo criado</span><span>12%</span></div><div class="mgmt-progress-track"><div class="mgmt-progress-fill blue" style="width:12%"></div></div></div>
+          <div class="mgmt-footer"><span class="mgmt-students">👥 — alunos</span><span class="mgmt-badge draft">● Rascunho</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONFIGURAÇÕES ─────────────────────── -->
+    <div class="screen" id="screen-config">
+
+      <div class="config-section">
+        <div class="config-section-title">Conta</div>
+        <div class="config-row">
+          <div class="config-row-left"><div class="config-row-icon" style="background:#eff6ff">👤</div><div><div class="config-row-label">Editar Perfil</div><div class="config-row-sub">Nome, foto e bio</div></div></div>
+          <span class="config-chevron">›</span>
+        </div>
+        <div class="config-row">
+          <div class="config-row-left"><div class="config-row-icon" style="background:#fef9c3">🔑</div><div><div class="config-row-label">Alterar Senha</div><div class="config-row-sub">Última alteração há 3 meses</div></div></div>
+          <span class="config-chevron">›</span>
+        </div>
+        <div class="config-row">
+          <div class="config-row-left"><div class="config-row-icon" style="background:#f0fdf4">📧</div><div><div class="config-row-label">E-mail</div><div class="config-row-sub">allan@codepath.dev</div></div></div>
+          <span class="config-chevron">›</span>
+        </div>
+      </div>
+
+      <div class="config-section">
+        <div class="config-section-title">Preferências</div>
+        <div class="config-row" onclick="toggleSwitch(this)">
+          <div class="config-row-left"><div class="config-row-icon" style="background:#fdf4ff">🔔</div><div><div class="config-row-label">Notificações</div><div class="config-row-sub">Lembretes de lição diária</div></div></div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="config-row" onclick="toggleSwitch(this)">
+          <div class="config-row-left"><div class="config-row-icon" style="background:#fff7ed">🌙</div><div><div class="config-row-label">Modo Escuro</div><div class="config-row-sub">Aparência da interface</div></div></div>
+          <div class="toggle"></div>
+        </div>
+        <div class="config-row" onclick="toggleSwitch(this)">
+          <div class="config-row-left"><div class="config-row-icon" style="background:#eff6ff">🔊</div><div><div class="config-row-label">Sons</div><div class="config-row-sub">Efeitos sonoros nas lições</div></div></div>
+          <div class="toggle on"></div>
+        </div>
+        <div class="config-row">
+          <div class="config-row-left"><div class="config-row-icon" style="background:#d0fae5">🎯</div><div><div class="config-row-label">Meta Diária</div><div class="config-row-sub">10 min por dia</div></div></div>
+          <span class="config-chevron">›</span>
+        </div>
+      </div>
+
+      <div class="danger-zone">
+        <div class="config-section-title">Zona de Perigo</div>
+        <div class="config-row">
+          <div class="config-row-left"><div class="config-row-icon" style="background:#fef2f2">🗑️</div><div><div class="config-row-label" style="color:var(--clr-red)">Excluir Conta</div><div class="config-row-sub">Essa ação é irreversível</div></div></div>
+          <span class="config-chevron" style="color:var(--clr-red)">›</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /screens -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+const navItems = document.querySelectorAll('.nav-item[data-target]');
+const screens  = document.querySelectorAll('.screen');
+let current = 'aprender';
+
+function navigate(target) {
+  if (target === current) return;
+  navItems.forEach(n => n.classList.remove('active'));
+  screens.forEach(s => s.classList.remove('active'));
+  document.querySelector(`.nav-item[data-target="${target}"]`).classList.add('active');
+  const s = document.getElementById(`screen-${target}`);
+  s.classList.add('active');
+  s.scrollTop = 0;
+  current = target;
+}
+
+navItems.forEach(item => item.addEventListener('click', () => navigate(item.dataset.target)));
+
+window.addEventListener('load', () => {
+  setTimeout(() => { const f = document.getElementById('xpFill'); if (f) f.style.width = '35%'; }, 400);
+});
+
+function toggleSwitch(row) {
+  const t = row.querySelector('.toggle');
+  if (t) t.classList.toggle('on');
+}
+</script>
+</body>
+</html>
