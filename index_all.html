@@ -80,7 +80,7 @@
         <div><div class="section-htitle">Seção 1 — Fundamentos</div><div class="section-hsub">Tipos, variáveis e funções básicas</div></div>
       </div>
       <div class="trail-path">
-        <div class="bubble-row pos-center"><div class="bubble-wrap"><div class="bubble-tooltip">Introdução ao TypeScript</div><div class="bubble done">🟢</div><div class="bubble-stars"><div class="star"></div><div class="star"></div><div class="star"></div></div></div></div>
+        <div class="bubble-row pos-center"><div class="bubble-wrap" onclick="startLesson()" style="cursor:pointer"><div class="bubble-tooltip">Introdução ao TypeScript</div><div class="bubble done">🟢</div><div class="bubble-stars"><div class="star"></div><div class="star"></div><div class="star"></div></div></div></div>
         <div class="zz-connector done"></div>
         <div class="bubble-row pos-right"><div class="bubble-wrap"><div class="bubble-tooltip">Tipos Primitivos</div><div class="bubble done">📦</div><div class="bubble-stars"><div class="star"></div><div class="star"></div><div class="star empty"></div></div></div></div>
         <div class="zz-connector done"></div>
@@ -254,6 +254,79 @@
         </div>
       </div>
 
+    </div>
+
+    <!-- ── LOADING DA LIÇÃO ──────────────────── -->
+    <div class="screen" id="screen-loading">
+      <div class="loading-wrap">
+        <div class="loading-icon-ring">
+          <div class="loading-icon-inner">🟢</div>
+        </div>
+        <div class="loading-lesson-name">Introdução ao TypeScript</div>
+        <div class="loading-sub">Preparando sua lição…</div>
+        <div class="loading-bar-track"><div class="loading-bar-fill" id="loadingBar"></div></div>
+        <div class="loading-tip">💡 <strong>Dica:</strong> TypeScript é um superset tipado de JavaScript.</div>
+      </div>
+    </div>
+
+    <!-- ── LIÇÃO ─────────────────────────────── -->
+    <div class="screen" id="screen-licao">
+      <div class="lesson-topbar">
+        <button class="lesson-close-btn" onclick="exitLesson()" title="Sair da lição">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <div class="lesson-progress-track">
+          <div class="lesson-progress-fill" id="lessonProgressFill"></div>
+        </div>
+        <div class="lesson-hearts">❤️ <span id="lessonHearts">5</span></div>
+      </div>
+
+      <div class="lesson-body" id="lessonBody">
+        <!-- preenchido dinamicamente -->
+      </div>
+
+      <div class="lesson-footer">
+        <div class="lesson-feedback" id="lessonFeedback"></div>
+        <button class="btn-lesson-check" id="btnCheck" onclick="checkAnswer()" disabled>Verificar</button>
+      </div>
+    </div>
+
+    <!-- ── RESULTADO DA LIÇÃO ─────────────────── -->
+    <div class="screen" id="screen-resultado">
+      <div class="result-wrap">
+        <div class="result-trophy">🏆</div>
+        <div class="result-title">Lição Concluída!</div>
+        <div class="result-subtitle">Introdução ao TypeScript</div>
+
+        <div class="result-stats">
+          <div class="result-stat xp">
+            <div class="result-stat-icon">⚡</div>
+            <div class="result-stat-value" id="resultXP">+50</div>
+            <div class="result-stat-label">XP Ganho</div>
+          </div>
+          <div class="result-stat acc">
+            <div class="result-stat-icon">🎯</div>
+            <div class="result-stat-value" id="resultAcc">100%</div>
+            <div class="result-stat-label">Precisão</div>
+          </div>
+          <div class="result-stat time">
+            <div class="result-stat-icon">⏱️</div>
+            <div class="result-stat-value" id="resultTime">1m 42s</div>
+            <div class="result-stat-label">Tempo</div>
+          </div>
+        </div>
+
+        <div class="result-stars" id="resultStars">
+          <span class="result-star">⭐</span>
+          <span class="result-star">⭐</span>
+          <span class="result-star">⭐</span>
+        </div>
+
+        <button class="btn-result-back" onclick="finishLesson()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+          Voltar à Trilha
+        </button>
+      </div>
     </div>
 
     <!-- ── CATÁLOGO DE CURSOS (overlay screen) ── -->
@@ -544,7 +617,260 @@
   box-shadow: none; cursor: default; pointer-events: none;
 }
 
-/* ════ TOAST ════════════════════════════════════ */
+/* ════ LOADING ══════════════════════════════════ */
+#screen-loading { display: flex; align-items: center; justify-content: center; }
+
+.loading-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  padding: 40px 32px; max-width: 400px; width: 100%;
+}
+.loading-icon-ring {
+  width: 110px; height: 110px; border-radius: 50%;
+  background: var(--clr-main-light);
+  border: 4px solid var(--clr-main);
+  display: flex; align-items: center; justify-content: center;
+  animation: pulseGlow 1.8s infinite;
+}
+.loading-icon-inner { font-size: 52px; }
+.loading-lesson-name { font-size: var(--fz-xl); font-weight: 900; color: var(--clr-black); text-align: center; }
+.loading-sub { font-size: var(--fz-sm); color: var(--clr-gray); font-weight: 700; }
+.loading-bar-track {
+  width: 100%; height: 10px; background: var(--clr-gray-light);
+  border-radius: var(--radius-full); overflow: hidden;
+}
+.loading-bar-fill {
+  height: 100%; width: 0; border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--clr-main), var(--clr-main-sec));
+  transition: width .1s linear;
+}
+.loading-tip {
+  background: var(--clr-main-light); border: 1.5px solid var(--clr-main);
+  border-radius: var(--radius-md); padding: 12px 16px;
+  font-size: var(--fz-sm); color: var(--clr-main-dark); font-weight: 600;
+  line-height: 1.5; width: 100%; text-align: center;
+}
+
+/* ════ LIÇÃO ════════════════════════════════════ */
+#screen-licao {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--clr-gray-bg);
+}
+
+.lesson-topbar {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 24px; background: var(--clr-white);
+  border-bottom: 1.5px solid var(--clr-gray-light); flex-shrink: 0;
+}
+.lesson-close-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 2px solid var(--clr-gray-light); background: var(--clr-white);
+  color: var(--clr-gray); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0; transition: all var(--dur) var(--ease);
+}
+.lesson-close-btn:hover { border-color: var(--clr-red); color: var(--clr-red); background: var(--clr-red-light); }
+
+.lesson-progress-track {
+  flex: 1; height: 12px; background: var(--clr-gray-light);
+  border-radius: var(--radius-full); overflow: hidden;
+}
+.lesson-progress-fill {
+  height: 100%; width: 0; border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--clr-main), var(--clr-main-sec));
+  transition: width .5s var(--ease);
+}
+.lesson-hearts { font-size: var(--fz-sm); font-weight: 800; color: #dc2626; flex-shrink: 0; }
+
+.lesson-body {
+  flex: 1; overflow-y: auto; padding: 32px 24px 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+}
+.lesson-body::-webkit-scrollbar { width: 4px; }
+.lesson-body::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+
+.lesson-footer {
+  padding: 16px 24px; background: var(--clr-white);
+  border-top: 1.5px solid var(--clr-gray-light);
+  display: flex; flex-direction: column; gap: 10px; flex-shrink: 0;
+}
+
+/* question shared */
+.q-label {
+  font-size: var(--fz-xs); font-weight: 900; color: var(--clr-gray);
+  text-transform: uppercase; letter-spacing: .8px;
+}
+.q-prompt {
+  font-size: var(--fz-lg); font-weight: 800; color: var(--clr-black);
+  text-align: center; line-height: 1.4; max-width: 560px;
+}
+.q-code {
+  background: #1e1e2e; color: #cdd6f4; border-radius: var(--radius-md);
+  padding: 16px 20px; font-family: 'Courier New', monospace;
+  font-size: var(--fz-sm); line-height: 1.7; width: 100%; max-width: 560px;
+  border: 1.5px solid #313244;
+}
+.q-code .kw  { color: #cba6f7; }
+.q-code .ty  { color: #89b4fa; }
+.q-code .str { color: #a6e3a1; }
+.q-code .num { color: #fab387; }
+.q-code .cmt { color: #6c7086; font-style: italic; }
+
+/* MULTIPLE CHOICE */
+.mc-options { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 560px; }
+.mc-option {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; border-radius: var(--radius-md);
+  border: 2px solid var(--clr-gray-light); background: var(--clr-white);
+  cursor: pointer; font-size: var(--fz-md); font-weight: 700; color: var(--clr-black);
+  transition: all var(--dur) var(--ease); user-select: none;
+}
+.mc-option:hover { border-color: var(--clr-main); background: var(--clr-main-light); color: var(--clr-main-dark); }
+.mc-option.selected { border-color: var(--clr-main); background: var(--clr-main-light); color: var(--clr-main-dark); }
+.mc-option.correct  { border-color: var(--clr-main); background: var(--clr-main-light); color: var(--clr-main-dark); pointer-events: none; }
+.mc-option.wrong    { border-color: var(--clr-red);  background: var(--clr-red-light);  color: var(--clr-red); pointer-events: none; }
+.mc-option-key {
+  width: 30px; height: 30px; border-radius: var(--radius-sm);
+  border: 2px solid var(--clr-gray-light); display: flex; align-items: center; justify-content: center;
+  font-size: var(--fz-xs); font-weight: 900; flex-shrink: 0;
+  background: var(--clr-gray-bg); color: var(--clr-gray);
+  transition: all var(--dur) var(--ease);
+}
+.mc-option.selected .mc-option-key,
+.mc-option.correct  .mc-option-key { border-color: var(--clr-main); background: var(--clr-main); color: #fff; }
+.mc-option.wrong    .mc-option-key { border-color: var(--clr-red); background: var(--clr-red); color: #fff; }
+
+/* TRUE / FALSE */
+.tf-options { display: flex; gap: 16px; width: 100%; max-width: 560px; }
+.tf-option {
+  flex: 1; padding: 20px 0; border-radius: var(--radius-lg);
+  border: 2px solid var(--clr-gray-light); background: var(--clr-white);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  cursor: pointer; font-size: var(--fz-md); font-weight: 800; color: var(--clr-black);
+  transition: all var(--dur) var(--ease); user-select: none;
+}
+.tf-option-emoji { font-size: 34px; }
+.tf-option:hover { border-color: var(--clr-main); background: var(--clr-main-light); }
+.tf-option.selected { border-color: var(--clr-main); background: var(--clr-main-light); color: var(--clr-main-dark); }
+.tf-option.correct  { border-color: var(--clr-main); background: var(--clr-main-light); color: var(--clr-main-dark); pointer-events: none; }
+.tf-option.wrong    { border-color: var(--clr-red);  background: var(--clr-red-light);  color: var(--clr-red); pointer-events: none; }
+
+/* SHORT TEXT */
+.st-input-wrap { width: 100%; max-width: 560px; }
+.st-input {
+  width: 100%; padding: 14px 18px;
+  border: 2px solid var(--clr-gray-light); border-radius: var(--radius-md);
+  font-family: var(--font); font-size: var(--fz-md); font-weight: 700; color: var(--clr-black);
+  background: var(--clr-white); outline: none;
+  transition: border-color var(--dur) var(--ease);
+}
+.st-input:focus { border-color: var(--clr-main); }
+.st-input.correct { border-color: var(--clr-main); background: var(--clr-main-light); }
+.st-input.wrong   { border-color: var(--clr-red);  background: var(--clr-red-light); }
+.st-hint { font-size: var(--fz-xs); color: var(--clr-gray); font-weight: 700; margin-top: 6px; }
+
+/* MATCHING */
+.matching-area { width: 100%; max-width: 560px; display: flex; flex-direction: column; gap: 12px; }
+.matching-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.matching-col-label { font-size: var(--fz-xs); font-weight: 900; color: var(--clr-gray); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 4px; }
+.matching-items { display: flex; flex-direction: column; gap: 8px; }
+.matching-item {
+  padding: 12px 16px; border-radius: var(--radius-md);
+  border: 2px solid var(--clr-gray-light); background: var(--clr-white);
+  font-size: var(--fz-sm); font-weight: 700; color: var(--clr-black);
+  cursor: pointer; transition: all var(--dur) var(--ease); user-select: none;
+  min-height: 46px; display: flex; align-items: center;
+}
+.matching-item:hover  { border-color: var(--clr-main); background: var(--clr-main-light); }
+.matching-item.selected-left  { border-color: var(--clr-blue); background: #eff6ff; color: var(--clr-blue); }
+.matching-item.selected-right { border-color: var(--clr-blue); background: #eff6ff; color: var(--clr-blue); }
+.matching-item.paired   { border-color: var(--clr-main); background: var(--clr-main-light); color: var(--clr-main-dark); cursor: default; }
+.matching-item.wrong    { border-color: var(--clr-red);  background: var(--clr-red-light);  color: var(--clr-red); }
+.matching-pairs { display: flex; flex-direction: column; gap: 6px; }
+.matching-pair-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: var(--fz-sm); font-weight: 700;
+}
+.matching-pair-left, .matching-pair-right {
+  flex: 1; padding: 8px 12px; border-radius: var(--radius-sm);
+  background: var(--clr-main-light); border: 1.5px solid var(--clr-main);
+  color: var(--clr-main-dark);
+}
+.matching-pair-arrow { color: var(--clr-main); font-size: 18px; }
+
+/* FEEDBACK */
+.lesson-feedback {
+  border-radius: var(--radius-md); padding: 0; font-size: var(--fz-sm); font-weight: 700;
+  overflow: hidden; max-height: 0; transition: max-height .3s var(--ease), padding .3s var(--ease);
+}
+.lesson-feedback.show { max-height: 80px; padding: 12px 16px; }
+.lesson-feedback.correct { background: var(--clr-main-light); color: var(--clr-main-dark); border: 1.5px solid var(--clr-main); }
+.lesson-feedback.wrong   { background: var(--clr-red-light);  color: var(--clr-red);        border: 1.5px solid var(--clr-red); }
+
+.btn-lesson-check {
+  width: 100%; padding: 14px; border-radius: var(--radius-full);
+  background: var(--clr-main); color: #fff;
+  font-family: var(--font); font-size: var(--fz-md); font-weight: 900;
+  border: none; box-shadow: var(--shadow-main); cursor: pointer;
+  transition: all var(--dur) var(--ease); letter-spacing: .4px;
+}
+.btn-lesson-check:disabled { background: var(--clr-gray-light); color: var(--clr-gray); box-shadow: none; cursor: not-allowed; }
+.btn-lesson-check:not(:disabled):hover { background: var(--clr-main-sec); transform: translateY(-1px); }
+.btn-lesson-check.next-mode { background: var(--clr-blue); box-shadow: 0 4px 0 #1d4ed8; }
+
+/* ════ RESULTADO ════════════════════════════════ */
+#screen-resultado { display: flex; align-items: center; justify-content: center; }
+
+.result-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+  padding: 48px 32px; max-width: 420px; width: 100%;
+}
+.result-trophy {
+  font-size: 80px; line-height: 1;
+  animation: trophyBounce .6s var(--ease) both;
+}
+@keyframes trophyBounce {
+  0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+  70%  { transform: scale(1.15) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); }
+}
+.result-title    { font-size: 28px; font-weight: 900; color: var(--clr-black); }
+.result-subtitle { font-size: var(--fz-sm); color: var(--clr-gray); font-weight: 700; margin-top: -10px; }
+
+.result-stats {
+  display: flex; gap: 16px; width: 100%;
+}
+.result-stat {
+  flex: 1; background: var(--clr-white); border-radius: var(--radius-lg);
+  border: 1.5px solid var(--clr-gray-light); padding: 20px 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.result-stat-icon  { font-size: 28px; }
+.result-stat-value { font-size: var(--fz-xl); font-weight: 900; }
+.result-stat-label { font-size: var(--fz-xs); font-weight: 700; color: var(--clr-gray); text-transform: uppercase; letter-spacing: .5px; text-align: center; }
+.result-stat.xp   .result-stat-value { color: #854d0e; }
+.result-stat.acc  .result-stat-value { color: var(--clr-main); }
+.result-stat.time .result-stat-value { color: var(--clr-blue); }
+
+.result-stars { display: flex; gap: 8px; font-size: 36px; }
+.result-star { opacity: 0; transform: scale(0); animation: starPop .4s var(--ease) forwards; }
+.result-star:nth-child(1) { animation-delay: .3s; }
+.result-star:nth-child(2) { animation-delay: .5s; }
+.result-star:nth-child(3) { animation-delay: .7s; }
+@keyframes starPop {
+  0%   { opacity: 0; transform: scale(0) rotate(-20deg); }
+  70%  { opacity: 1; transform: scale(1.2) rotate(5deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.btn-result-back {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 32px; border-radius: var(--radius-full);
+  background: var(--clr-main); color: #fff;
+  font-family: var(--font); font-size: var(--fz-md); font-weight: 900;
+  border: none; box-shadow: var(--shadow-main); cursor: pointer;
+  transition: all var(--dur) var(--ease); margin-top: 8px;
+}
+.btn-result-back:hover { background: var(--clr-main-sec); transform: translateY(-2px); }
+
 .toast {
   position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
   background: var(--clr-black); color: #fff;
@@ -557,101 +883,6 @@
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 
-<script>
-const navItems = document.querySelectorAll('.nav-item[data-target]');
-const screens  = document.querySelectorAll('.screen');
-let current = 'aprender';
-
-function navigate(target) {
-  if (target === current) return;
-  navItems.forEach(n => n.classList.remove('active'));
-  screens.forEach(s => s.classList.remove('active'));
-  document.querySelector(`.nav-item[data-target="${target}"]`).classList.add('active');
-  const s = document.getElementById(`screen-${target}`);
-  s.classList.add('active');
-  s.scrollTop = 0;
-  current = target;
-}
-
-navItems.forEach(item => item.addEventListener('click', () => navigate(item.dataset.target)));
-
-window.addEventListener('load', () => {
-  setTimeout(() => { const f = document.getElementById('xpFill'); if (f) f.style.width = '35%'; }, 400);
-
-  // Botão "Novo Curso"
-  document.querySelector('.btn-add').addEventListener('click', openCatalog);
-});
-
-function openCatalog() {
-  // Mantém a nav item de gerência ativa visualmente
-  screens.forEach(s => s.classList.remove('active'));
-  const cat = document.getElementById('screen-catalogo');
-  cat.classList.add('active');
-  cat.scrollTop = 0;
-  current = 'catalogo';
-  // Reseta busca e filtro
-  document.querySelector('.catalog-search-input').value = '';
-  setFilterActive('todos');
-  filterCatalog('');
-}
-
-function closeCatalog() {
-  screens.forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-gerencia').classList.add('active');
-  current = 'gerencia';
-}
-
-let activeFilter = 'todos';
-
-function setFilter(btn, cat) {
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  activeFilter = cat;
-  const query = document.querySelector('.catalog-search-input').value;
-  filterCatalog(query);
-}
-
-function setFilterActive(cat) {
-  activeFilter = cat;
-  document.querySelectorAll('.filter-chip').forEach(c => {
-    c.classList.toggle('active', c.textContent.toLowerCase() === cat || (cat === 'todos' && c.textContent === 'Todos'));
-  });
-}
-
-function filterCatalog(query) {
-  const q = query.toLowerCase();
-  document.querySelectorAll('.catalog-card').forEach(card => {
-    const cat = card.dataset.category;
-    const name = card.querySelector('.catalog-card-name').textContent.toLowerCase();
-    const desc = card.querySelector('.catalog-card-desc').textContent.toLowerCase();
-    const matchCat = activeFilter === 'todos' || cat === activeFilter;
-    const matchQ   = !q || name.includes(q) || desc.includes(q);
-    card.classList.toggle('hidden', !(matchCat && matchQ));
-  });
-}
-
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-function addCourse(btn) {
-  if (btn.classList.contains('added')) return;
-  const name = btn.closest('.catalog-card').querySelector('.catalog-card-name').textContent;
-  btn.textContent = '✓ Adicionado';
-  btn.classList.add('added');
-  btn.closest('.catalog-card').dataset.added = 'true';
-  showToast(`✅ "${name}" adicionado aos seus cursos!`);
-}
-
-function toggleSwitch(row) {
-  const t = row.querySelector('.toggle');
-  if (t) t.classList.toggle('on');
-}
-</script>
+<script src="js/new.js"></script>
 </body>
 </html>
