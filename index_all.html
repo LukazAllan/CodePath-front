@@ -80,7 +80,7 @@
         <div><div class="section-htitle">Seção 1 — Fundamentos</div><div class="section-hsub">Tipos, variáveis e funções básicas</div></div>
       </div>
       <div class="trail-path">
-        <div class="bubble-row pos-center"><div class="bubble-wrap" onclick="startLesson()" style="cursor:pointer"><div class="bubble-tooltip">Introdução ao TypeScript</div><div class="bubble done">🟢</div><div class="bubble-stars"><div class="star"></div><div class="star"></div><div class="star"></div></div></div></div>
+        <div class="bubble-row pos-center"><div class="bubble-wrap js-start-lesson" style="cursor:pointer"><div class="bubble-tooltip">Introdução ao TypeScript</div><div class="bubble done">🟢</div><div class="bubble-stars"><div class="star"></div><div class="star"></div><div class="star"></div></div></div></div>
         <div class="zz-connector done"></div>
         <div class="bubble-row pos-right"><div class="bubble-wrap"><div class="bubble-tooltip">Tipos Primitivos</div><div class="bubble done">📦</div><div class="bubble-stars"><div class="star"></div><div class="star"></div><div class="star empty"></div></div></div></div>
         <div class="zz-connector done"></div>
@@ -228,15 +228,15 @@
 
       <div class="config-section">
         <div class="config-section-title">Preferências</div>
-        <div class="config-row" onclick="toggleSwitch(this)">
+        <div class="config-row" data-toggle="true">
           <div class="config-row-left"><div class="config-row-icon" style="background:#fdf4ff">🔔</div><div><div class="config-row-label">Notificações</div><div class="config-row-sub">Lembretes de lição diária</div></div></div>
           <div class="toggle on"></div>
         </div>
-        <div class="config-row" onclick="toggleSwitch(this)">
+        <div class="config-row" data-toggle="true">
           <div class="config-row-left"><div class="config-row-icon" style="background:#fff7ed">🌙</div><div><div class="config-row-label">Modo Escuro</div><div class="config-row-sub">Aparência da interface</div></div></div>
           <div class="toggle"></div>
         </div>
-        <div class="config-row" onclick="toggleSwitch(this)">
+        <div class="config-row" data-toggle="true">
           <div class="config-row-left"><div class="config-row-icon" style="background:#eff6ff">🔊</div><div><div class="config-row-label">Sons</div><div class="config-row-sub">Efeitos sonoros nas lições</div></div></div>
           <div class="toggle on"></div>
         </div>
@@ -272,7 +272,7 @@
     <!-- ── LIÇÃO ─────────────────────────────── -->
     <div class="screen" id="screen-licao">
       <div class="lesson-topbar">
-        <button class="lesson-close-btn" onclick="exitLesson()" title="Sair da lição">
+        <button class="lesson-close-btn" type="button" title="Sair da lição">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
         <div class="lesson-progress-track">
@@ -287,7 +287,7 @@
 
       <div class="lesson-footer">
         <div class="lesson-feedback" id="lessonFeedback"></div>
-        <button class="btn-lesson-check" id="btnCheck" onclick="checkAnswer()" disabled>Verificar</button>
+        <button class="btn-lesson-check" id="btnCheck" type="button" disabled>Verificar</button>
       </div>
     </div>
 
@@ -322,7 +322,7 @@
           <span class="result-star">⭐</span>
         </div>
 
-        <button class="btn-result-back" onclick="finishLesson()">
+        <button class="btn-result-back" type="button">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
           Voltar à Trilha
         </button>
@@ -332,7 +332,7 @@
     <!-- ── CATÁLOGO DE CURSOS (overlay screen) ── -->
     <div class="screen" id="screen-catalogo">
       <div class="catalog-header">
-        <button class="btn-back" onclick="closeCatalog()">
+        <button class="btn-back" type="button">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
           Voltar
         </button>
@@ -345,14 +345,14 @@
       <div class="catalog-search-wrap">
         <div class="catalog-search-box">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input class="catalog-search-input" type="text" placeholder="Buscar cursos…" oninput="filterCatalog(this.value)">
+          <input class="catalog-search-input" type="text" placeholder="Buscar cursos…">
         </div>
         <div class="catalog-filters">
-          <button class="filter-chip active" onclick="setFilter(this,'todos')">Todos</button>
-          <button class="filter-chip" onclick="setFilter(this,'frontend')">Frontend</button>
-          <button class="filter-chip" onclick="setFilter(this,'backend')">Backend</button>
-          <button class="filter-chip" onclick="setFilter(this,'dados')">Dados</button>
-          <button class="filter-chip" onclick="setFilter(this,'devops')">DevOps</button>
+          <button class="filter-chip active" data-filter="todos" type="button">Todos</button>
+          <button class="filter-chip" data-filter="frontend" type="button">Frontend</button>
+          <button class="filter-chip" data-filter="backend" type="button">Backend</button>
+          <button class="filter-chip" data-filter="dados" type="button">Dados</button>
+          <button class="filter-chip" data-filter="devops" type="button">DevOps</button>
         </div>
       </div>
 
@@ -371,7 +371,7 @@
               <span>⭐ 4.9</span>
               <span>📚 48 lições</span>
             </div>
-            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+            <button class="btn-catalog-add">+ Adicionar</button>
           </div>
         </div>
 
@@ -388,7 +388,7 @@
               <span>⭐ 4.8</span>
               <span>📚 62 lições</span>
             </div>
-            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+            <button class="btn-catalog-add">+ Adicionar</button>
           </div>
         </div>
 
@@ -405,7 +405,7 @@
               <span>⭐ 4.7</span>
               <span>📚 75 lições</span>
             </div>
-            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+            <button class="btn-catalog-add">+ Adicionar</button>
           </div>
         </div>
 
@@ -422,7 +422,7 @@
               <span>⭐ 4.9</span>
               <span>📚 54 lições</span>
             </div>
-            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+            <button class="btn-catalog-add">+ Adicionar</button>
           </div>
         </div>
 
@@ -439,7 +439,7 @@
               <span>⭐ 4.6</span>
               <span>📚 38 lições</span>
             </div>
-            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+            <button class="btn-catalog-add">+ Adicionar</button>
           </div>
         </div>
 
@@ -456,7 +456,7 @@
               <span>⭐ 4.8</span>
               <span>📚 80 lições</span>
             </div>
-            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+            <button class="btn-catalog-add">+ Adicionar</button>
           </div>
         </div>
 
@@ -473,7 +473,7 @@
               <span>⭐ 5.0</span>
               <span>📚 90 lições</span>
             </div>
-            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+            <button class="btn-catalog-add">+ Adicionar</button>
           </div>
         </div>
 
@@ -490,7 +490,7 @@
               <span>⭐ 4.7</span>
               <span>📚 66 lições</span>
             </div>
-            <button class="btn-catalog-add" onclick="addCourse(this)">+ Adicionar</button>
+            <button class="btn-catalog-add">+ Adicionar</button>
           </div>
         </div>
 
@@ -883,6 +883,6 @@
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 
-<script src="js/new.js"></script>
+<script type="module" src="js/new.js"></script>
 </body>
 </html>
