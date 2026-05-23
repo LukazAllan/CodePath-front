@@ -1,315 +1,236 @@
-import { state, resetLessonState } from './state.js';
-import {
-  QuestionType,
-  getLessonQuestion,
-  getQuestionCount,
-  formatElapsedTime,
-  computeResult
-} from './service.js';
-import { buildQuestionHTML } from './view.js';
-import { Renderer } from './renderer.js';
+// ============================================================
+//  controller.js
+//  Responsabilidade: responder a eventos do DOM e orquestrar
+//  a comunicação entre View, Service e State.
+//
+//  Equivalente ao @Controller do Spring — recebe a "requisição"
+//  (evento do usuário), chama o Service e devolve para a View.
+//
+//  REGRA: controller.js nunca chama repository.js diretamente.
+// ============================================================
 
-let selectedMC = null;
-let selectedTF = null;
+import { state, setUser, setEnrollments, setTrail, resetLessonState, setCurrentScreen } from './state.js';
+import { AuthService, CourseService, SectionService, LessonService, QuestionService, EnrollmentService, LessonProgressService, StreakService } from './service.js';
+import * as View from './view.js';
 
-export function initApp() {
-  Renderer.bindNavClick(navigate);
-  Renderer.bindButton('.btn-add', openCatalog);
-  Renderer.bindButton('.btn-back', closeCatalog);
-  Renderer.bindSearchInput(filterCatalog);
-  Renderer.bindFilterButtons(setFilter);
-  Renderer.bindCatalogActions(addCourse);
-  Renderer.bindStartLesson(startLesson);
-  Renderer.bindButton('.lesson-close-btn', exitLesson);
-  Renderer.bindButton('.btn-result-back', finishLesson);
-  Renderer.bindButton('#btnCheck', handleCheckClick);
-  Renderer.queryAll('.config-row').forEach(row => {
-    if (row.querySelector('.toggle')) {
-      row.addEventListener('click', () => toggleSwitch(row));
-    }
-  });
+// ─── Inicialização ────────────────────────────────────────────
 
-  setTimeout(() => Renderer.renderXPFill(35), 400);
-}
+export async function init() {
+  View.bindNavItems(onNavigate);
+  View.bindStartLesson(onStartLesson);
+  View.bindLessonClose(onLessonClose);
+  View.bindCheckButton(onCheck);
+  View.bindResultBack(onResultBack);
+  View.bindExitButton(onLogout);
 
-function navigate(target) {
-  if (target === state.currentScreen) return;
-  state.currentScreen = target;
-  Renderer.activateNav(target);
-  Renderer.activateScreen(target);
-}
-
-function openCatalog() {
-  state.currentScreen = 'catalogo';
-  Renderer.activateScreen('catalogo');
-  Renderer.setSearchValue('');
-  setFilter('todos');
-}
-
-function closeCatalog() {
-  state.currentScreen = 'gerencia';
-  Renderer.activateNav('gerencia');
-  Renderer.activateScreen('gerencia');
-}
-
-function setFilter(filter) {
-  state.activeFilter = filter;
-  Renderer.setFilterActive(filter);
-  filterCatalog(Renderer.getSearchValue());
-}
-
-function filterCatalog(query) {
-  const normalized = query.toLowerCase();
-  Renderer.queryAll('.catalog-card').forEach(card => {
-    const category = card.dataset.category;
-    const name = card.querySelector('.catalog-card-name').textContent.toLowerCase();
-    const desc = card.querySelector('.catalog-card-desc').textContent.toLowerCase();
-    const matchesFilter = state.activeFilter === 'todos' || category === state.activeFilter;
-    const matchesQuery = !normalized || name.includes(normalized) || desc.includes(normalized);
-    card.classList.toggle('hidden', !(matchesFilter && matchesQuery));
-  });
-}
-
-function addCourse(button) {
-  if (button.classList.contains('added')) return;
-  const card = button.closest('.catalog-card');
-  const name = card.querySelector('.catalog-card-name').textContent;
-  button.textContent = '✓ Adicionado';
-  button.classList.add('added');
-  card.dataset.added = 'true';
-  Renderer.showToast(`✅ "${name}" adicionado aos seus cursos!`);
-}
-
-function startLesson() {
-  resetLessonState();
-  Renderer.activateScreen('loading');
-  animateLoadingBar();
-}
-
-function animateLoadingBar() {
-  const bar = Renderer.query('#loadingBar');
-  let percent = 0;
-  if (!bar) return;
-  bar.style.width = '0%';
-  const interval = setInterval(() => {
-    percent += 2;
-    bar.style.width = `${percent}%`;
-    if (percent >= 100) {
-      clearInterval(interval);
-      setTimeout(() => {
-        Renderer.activateScreen('licao');
-        renderQuestion();
-      }, 300);
-    }
-  }, 30);
-}
-
-function renderQuestion() {
-  const question = getLessonQuestion(state.lesson.qIndex);
-  state.lesson.answered = false;
-  state.lesson.matchLeft = null;
-  selectedMC = null;
-  selectedTF = null;
-
-  const progress = (state.lesson.qIndex / getQuestionCount()) * 100;
-  Renderer.renderLessonProgress(progress);
-  Renderer.renderLessonHearts(state.lesson.hearts);
-  Renderer.resetFeedback();
-  Renderer.updateCheckButton({ text: 'Verificar', disabled: true, nextMode: false });
-  Renderer.renderLessonBody(buildQuestionHTML(question));
-
-  if (question.type === QuestionType.MULTIPLE_CHOICE) {
-    Renderer.queryAll('.mc-option').forEach(option => {
-      option.addEventListener('click', () => selectMC(parseInt(option.dataset.index, 10)));
-    });
-  } else if (question.type === QuestionType.TRUE_FALSE) {
-    Renderer.queryAll('.tf-option').forEach(option => {
-      option.addEventListener('click', () => selectTF(option.dataset.val === 'true'));
-    });
-  } else if (question.type === QuestionType.SHORT_TEXT) {
-    const input = Renderer.query('.st-input');
-    if (input) {
-      input.addEventListener('input', () => {
-        Renderer.updateCheckButton({ text: 'Verificar', disabled: input.value.trim() === '', nextMode: false });
-      });
-      input.addEventListener('keydown', event => {
-        if (event.key === 'Enter') handleCheckClick();
-      });
-    }
-  } else if (question.type === QuestionType.MATCHING) {
-    Renderer.queryAll('.matching-item[data-side="left"]').forEach(el => {
-      el.addEventListener('click', () => matchClickLeft(el));
-    });
-    Renderer.queryAll('.matching-item[data-side="right"]').forEach(el => {
-      el.addEventListener('click', () => matchClickRight(el));
-    });
+  if (AuthService.isLoggedIn()) {
+    await loadUserSession();
+  } else {
+    window.location.href = 'login.html';
   }
 }
 
-function selectMC(index) {
-  if (state.lesson.answered) return;
-  selectedMC = index;
-  Renderer.queryAll('.mc-option').forEach((option, optionIndex) => {
-    option.classList.toggle('selected', optionIndex === index);
-  });
-  Renderer.updateCheckButton({ text: 'Verificar', disabled: false, nextMode: false });
+// ─── Sessão / Auth ────────────────────────────────────────────
+
+async function loadUserSession() {
+  try {
+    const me = await AuthService.me();
+    setUser(me);
+    View.renderUserInfo(me);
+
+    const [enrollments, streak] = await Promise.all([
+      EnrollmentService.findByUserId(me.id),
+      StreakService.findById(me.id).catch(() => null),
+    ]);
+    setEnrollments(enrollments);
+
+    await loadTrail();
+    View.renderStreak(streak);
+    View.renderXpBar(me.xp);
+  } catch (e) {
+    console.error('Falha ao carregar sessão:', e);
+    onLogout();
+  }
 }
 
-function selectTF(value) {
-  if (state.lesson.answered) return;
-  selectedTF = value;
-  Renderer.queryAll('.tf-option').forEach(option => {
-    option.classList.toggle('selected', (option.dataset.val === 'true') === value);
-  });
-  Renderer.updateCheckButton({ text: 'Verificar', disabled: false, nextMode: false });
+export async function onLogin(email, password) {
+  try {
+    await AuthService.login(email, password);
+    window.location.href = 'index_all.html';
+  } catch (e) {
+    View.showToast('E-mail ou senha incorretos.', 'error');
+  }
 }
 
-function matchClickLeft(element) {
-  if (element.classList.contains('paired')) return;
-  Renderer.queryAll('.matching-item[data-side="left"]').forEach(item => item.classList.remove('selected-left'));
-  state.lesson.matchLeft = element;
-  element.classList.add('selected-left');
+export async function onSignUp(name, email, password) {
+  try {
+    await AuthService.signUp(name, email, password);
+    View.showToast('Conta criada! Faça login.', 'success');
+    window.location.href = 'login.html';
+  } catch (e) {
+    View.showToast('Erro ao criar conta.', 'error');
+  }
 }
 
-function matchClickRight(element) {
-  if (!state.lesson.matchLeft || element.classList.contains('paired')) return;
-  const leftElement = state.lesson.matchLeft;
-  const leftIndex = parseInt(leftElement.dataset.index, 10);
-  const rightIndex = parseInt(element.dataset.index, 10);
-  const question = getLessonQuestion(state.lesson.qIndex);
-  const isCorrect = leftIndex === rightIndex;
+export function onLogout() {
+  AuthService.logout();
+  window.location.href = 'login.html';
+}
+
+// ─── Trilha ───────────────────────────────────────────────────
+
+async function loadTrail() {
+  const [sections, lessons, progress] = await Promise.all([
+    SectionService.findAll(),
+    LessonService.findAll(),
+    LessonProgressService.findAll(),
+  ]);
+  setTrail({ sections, lessons, progress });
+  View.renderTrail(sections, lessons, progress);
+}
+
+// ─── Navegação ────────────────────────────────────────────────
+
+function onNavigate(screenName) {
+  setCurrentScreen(screenName);
+  View.switchScreen(screenName);
+}
+
+// ─── Fluxo de Lição ───────────────────────────────────────────
+
+async function onStartLesson(lessonId) {
+  try {
+    resetLessonState();
+    state.lesson.lessonId = lessonId;
+    state.lesson.startTime = Date.now();
+
+    View.switchScreen('loading');
+    View.animateLoadingBar(async () => {
+      const questions = await QuestionService.findByLessonId(lessonId);
+      state.lesson.questions = questions;
+
+      if (questions.length === 0) {
+        View.showToast('Essa lição ainda não tem questões.', 'info');
+        View.switchScreen('aprender');
+        return;
+      }
+
+      View.switchScreen('licao');
+      renderCurrentQuestion();
+    });
+  } catch (e) {
+    View.showToast('Erro ao carregar a lição.', 'error');
+    View.switchScreen('aprender');
+  }
+}
+
+function renderCurrentQuestion() {
+  const { questions, qIndex, hearts } = state.lesson;
+  const total = questions.length;
+  const progress = qIndex / total;
+
+  View.renderQuestion(questions[qIndex]);
+  View.updateLessonProgress(progress);
+  View.updateHearts(hearts);
+  View.resetFeedback();
+  View.disableCheckButton();
+}
+
+function onCheck() {
+  if (state.lesson.answered) {
+    // "Próxima" — avança para a próxima questão
+    advanceQuestion();
+    return;
+  }
+
+  const question = state.lesson.questions[state.lesson.qIndex];
+  const result   = View.collectAnswer(question);
+
+  if (result === null) return; // nada selecionado ainda
+
+  const isCorrect = evaluateAnswer(question, result);
+  state.lesson.answered = true;
 
   if (isCorrect) {
-    leftElement.classList.remove('selected-left');
-    leftElement.classList.add('paired');
-    element.classList.add('paired');
-    state.lesson.matchPaired.push(leftIndex);
-
-    const pairs = Renderer.query('#matchPairs');
-    if (pairs) {
-      const row = document.createElement('div');
-      row.className = 'matching-pair-row';
-      row.innerHTML = `
-        <div class="matching-pair-left">${question.pairs[leftIndex].left}</div>
-        <div class="matching-pair-arrow">→</div>
-        <div class="matching-pair-right">${question.pairs[leftIndex].right}</div>
-      `;
-      pairs.appendChild(row);
-    }
-
-    state.lesson.matchLeft = null;
-    if (state.lesson.matchPaired.length === question.pairs.length) {
-      Renderer.updateCheckButton({ text: 'Verificar', disabled: false, nextMode: false });
-    }
+    state.lesson.correctCount++;
+    View.showFeedback(true, question.hint);
   } else {
-    leftElement.classList.add('wrong');
-    element.classList.add('wrong');
-    setTimeout(() => {
-      leftElement.classList.remove('wrong', 'selected-left');
-      element.classList.remove('wrong');
-      state.lesson.matchLeft = null;
-    }, 700);
+    state.lesson.hearts--;
+    View.updateHearts(state.lesson.hearts);
+    View.showFeedback(false, question.hint);
+  }
+
+  View.lockQuestion(question, result, isCorrect);
+  View.setCheckButtonToNext();
+}
+
+function evaluateAnswer(question, answer) {
+  const { QuestionType } = question;
+
+  switch (question.type) {
+    case 'MULTIPLE_CHOICE':
+      return answer === question.correct;
+
+    case 'TRUE_FALSE':
+      return answer === question.correct;
+
+    case 'SHORT_TEXT':
+      return question.acceptedAnswers
+        .some(a => a.trim().toLowerCase() === String(answer).trim().toLowerCase());
+
+    case 'MATCHING':
+      // answer é um array de { left, right } já validado pelo View
+      return answer.every(pair =>
+        question.pairs.some(p => p.left === pair.left && p.right === pair.right)
+      );
+
+    default:
+      return false;
   }
 }
 
-function handleCheckClick() {
-  if (state.lesson.answered) {
-    nextQuestion();
+async function advanceQuestion() {
+  state.lesson.qIndex++;
+  state.lesson.answered = false;
+
+  const { questions, qIndex } = state.lesson;
+
+  if (qIndex >= questions.length) {
+    await finishLesson();
   } else {
-    checkAnswer();
+    renderCurrentQuestion();
+    View.setCheckButtonToVerify();
   }
 }
 
-function checkAnswer() {
-  const question = getLessonQuestion(state.lesson.qIndex);
-  let correct = false;
+async function finishLesson() {
+  const elapsed  = Math.floor((Date.now() - state.lesson.startTime) / 1000);
+  const total    = state.lesson.questions.length;
+  const correct  = state.lesson.correctCount;
+  const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const xpGained = correct * 10;
+  const stars    = accuracy === 100 ? 3 : accuracy >= 70 ? 2 : 1;
 
-  if (question.type === QuestionType.MULTIPLE_CHOICE) {
-    correct = selectedMC === question.correct;
-    Renderer.queryAll('.mc-option').forEach((option, index) => {
-      if (index === question.correct) {
-        option.classList.add('correct');
-      } else if (index === selectedMC) {
-        option.classList.add('wrong');
-      }
-    });
-  } else if (question.type === QuestionType.TRUE_FALSE) {
-    correct = selectedTF === question.correct;
-    Renderer.queryAll('.tf-option').forEach(option => {
-      const value = option.dataset.val === 'true';
-      if (value === question.correct) {
-        option.classList.add('correct');
-      } else if (value === selectedTF) {
-        option.classList.add('wrong');
-      }
-    });
-  } else if (question.type === QuestionType.SHORT_TEXT) {
-    const input = Renderer.query('.st-input');
-    if (!input) return;
-    const answer = input.value.trim().toLowerCase();
-    correct = question.acceptedAnswers.map(a => a.toLowerCase()).includes(answer);
-    input.classList.add(correct ? 'correct' : 'wrong');
-    input.readOnly = true;
-  } else if (question.type === QuestionType.MATCHING) {
-    correct = true;
+  // Persiste o progresso no backend
+  try {
+    await LessonProgressService.complete(state.lesson.lessonId);
+  } catch (e) {
+    console.warn('Não foi possível salvar o progresso:', e);
   }
 
-  state.lesson.answered = true;
-  if (correct) {
-    state.lesson.correctCount += 1;
-    Renderer.renderFeedback('✅ Correto! Muito bem!', true);
-  } else {
-    state.lesson.hearts = Math.max(0, state.lesson.hearts - 1);
-    Renderer.renderFeedback('❌ Não foi dessa vez. Continue!', false);
-  }
-
-  Renderer.renderLessonHearts(state.lesson.hearts);
-  Renderer.updateCheckButton({
-    text: state.lesson.qIndex < getQuestionCount() - 1 ? 'Continuar →' : 'Ver Resultado →',
-    disabled: false,
-    nextMode: true
-  });
+  View.renderResult({ xpGained, accuracy, elapsed, stars });
+  View.switchScreen('resultado');
 }
 
-function nextQuestion() {
-  state.lesson.qIndex += 1;
-  selectedMC = null;
-  selectedTF = null;
-
-  if (state.lesson.qIndex >= getQuestionCount()) {
-    showResult();
-  } else {
-    renderQuestion();
+function onLessonClose() {
+  if (confirm('Sair da lição? Seu progresso será perdido.')) {
+    resetLessonState();
+    View.switchScreen('aprender');
   }
 }
 
-function showResult() {
-  Renderer.renderLessonProgress(100);
-  const elapsed = Date.now() - state.lesson.startTime;
-  const result = computeResult(state.lesson.correctCount, getQuestionCount());
-  Renderer.renderResult({
-    xp: result.xp,
-    accuracy: result.accuracy,
-    timeText: formatElapsedTime(elapsed),
-    stars: result.stars
-  });
-  Renderer.activateScreen('resultado');
-}
-
-function exitLesson() {
-  state.currentScreen = 'aprender';
-  Renderer.activateNav('aprender');
-  Renderer.activateScreen('aprender');
-}
-
-function finishLesson() {
-  state.currentScreen = 'aprender';
-  Renderer.activateNav('aprender');
-  Renderer.activateScreen('aprender');
-}
-
-function toggleSwitch(row) {
-  const toggle = row.querySelector('.toggle');
-  if (!toggle) return;
-  toggle.classList.toggle('on');
+function onResultBack() {
+  resetLessonState();
+  loadTrail(); // recarrega a trilha para refletir o progresso salvo
+  View.switchScreen('aprender');
 }

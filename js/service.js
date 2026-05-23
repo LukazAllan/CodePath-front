@@ -1,96 +1,197 @@
-//import { QuestionType } from './model/question_type.js';
+// ============================================================
+//  service.js
+//  Responsabilidade: regras de negócio e orquestração.
+//  Recebe dados crus do repository, devolve dados prontos
+//  para o controller consumir.
+//
+//  Equivalente ao @Service do Spring:
+//    AuthService, CourseService, LessonService, etc.
+// ============================================================
 
-export const QuestionType = {
-  MULTIPLE_CHOICE: 'mc',
-  TRUE_FALSE: 'tf',
-  SHORT_TEXT: 'st',
-  MATCHING: 'match'
+import {
+  AuthRepository,
+  UserRepository,
+  CourseRepository,
+  SectionRepository,
+  LessonRepository,
+  QuestionRepository,
+  AnswerRepository,
+  EnrollmentRepository,
+  LessonProgressRepository,
+  StreakRepository,
+  SessionRepository,
+  SuggestionRepository,
+} from './repository.js';
+
+import {
+  makeUser,
+  makeCourse,
+  makeSection,
+  makeLesson,
+  makeQuestion,
+  makeLessonProgress,
+  makeStreak,
+  LessonProgressStatus,
+} from './model/entities.js';
+
+// ─── Auth ─────────────────────────────────────────────────────
+
+export const AuthService = {
+
+  async login(email, password) {
+    const data = await AuthRepository.login(email, password);
+    // Persiste o token na sessão para o repository.js injetar automaticamente
+    sessionStorage.setItem('token', data.token);
+    return data;
+  },
+
+  async signUp(name, email, password) {
+    return AuthRepository.signUp(name, email, password);
+  },
+
+  async me() {
+    const token = sessionStorage.getItem('token');
+    if (!token) throw { status: 401, message: 'Sem sessão ativa.' };
+    return AuthRepository.me(token);
+  },
+
+  logout() {
+    sessionStorage.removeItem('token');
+  },
+
+  isLoggedIn() {
+    return !!sessionStorage.getItem('token');
+  },
 };
 
-export const LESSON_QUESTIONS = [
-  {
-    type: QuestionType.MULTIPLE_CHOICE,
-    label: 'Escolha a alternativa correta',
-    prompt: 'O que é TypeScript?',
-    code: null,
-    options: [
-      'Uma linguagem completamente diferente de JavaScript',
-      'Um superset tipado de JavaScript que compila para JS',
-      'Uma biblioteca para manipulação do DOM',
-      'Um framework para criação de APIs REST'
-    ],
-    correct: 1
+// ─── User ─────────────────────────────────────────────────────
+
+export const UserService = {
+  findAll:    ()           => UserRepository.findAll().then(list => list.map(makeUser)),
+  findById:   (id)         => UserRepository.findById(id).then(makeUser),
+  create:     (user)       => UserRepository.create(user),
+  update:     (id, user)   => UserRepository.update(id, user),
+  deleteById: (id)         => UserRepository.deleteById(id),
+};
+
+// ─── Course ───────────────────────────────────────────────────
+
+export const CourseService = {
+  findAll:    ()             => CourseRepository.findAll().then(list => list.map(makeCourse)),
+  findById:   (id)           => CourseRepository.findById(id).then(makeCourse),
+  create:     (course)       => CourseRepository.create(course),
+  update:     (id, course)   => CourseRepository.update(id, course),
+  deleteById: (id)           => CourseRepository.deleteById(id),
+};
+
+// ─── Section ──────────────────────────────────────────────────
+
+export const SectionService = {
+  findAll:    ()              => SectionRepository.findAll().then(list => list.map(makeSection)),
+  findById:   (id)            => SectionRepository.findById(id).then(makeSection),
+  create:     (section)       => SectionRepository.create(section),
+  update:     (id, section)   => SectionRepository.update(id, section),
+  deleteById: (id)            => SectionRepository.deleteById(id),
+};
+
+// ─── Lesson ───────────────────────────────────────────────────
+
+export const LessonService = {
+  findAll:    ()             => LessonRepository.findAll().then(list => list.map(makeLesson)),
+  findById:   (id)           => LessonRepository.findById(id).then(makeLesson),
+  create:     (lesson)       => LessonRepository.create(lesson),
+  update:     (id, lesson)   => LessonRepository.update(id, lesson),
+  deleteById: (id)           => LessonRepository.deleteById(id),
+};
+
+// ─── Question ─────────────────────────────────────────────────
+
+export const QuestionService = {
+  findAll:    ()               => QuestionRepository.findAll().then(list => list.map(makeQuestion)),
+  findById:   (id)             => QuestionRepository.findById(id).then(makeQuestion),
+  create:     (question)       => QuestionRepository.create(question),
+  update:     (id, question)   => QuestionRepository.update(id, question),
+  deleteById: (id)             => QuestionRepository.deleteById(id),
+
+  /** Retorna as questões de uma lição específica filtrando client-side. */
+  async findByLessonId(lessonId) {
+    const all = await QuestionService.findAll();
+    return all.filter(q => q.lesson?.id === lessonId);
   },
-  {
-    type: QuestionType.TRUE_FALSE,
-    label: 'Verdadeiro ou Falso?',
-    prompt: 'TypeScript permite definir tipos para variáveis, parâmetros e retorno de funções.',
-    code: null,
-    correct: true
+};
+
+// ─── Answer ───────────────────────────────────────────────────
+
+export const AnswerService = {
+  findAll:    ()             => AnswerRepository.findAll(),
+  findById:   (id)           => AnswerRepository.findById(id),
+  create:     (answer)       => AnswerRepository.create(answer),
+  update:     (id, answer)   => AnswerRepository.update(id, answer),
+  deleteById: (id)           => AnswerRepository.deleteById(id),
+};
+
+// ─── Enrollment ───────────────────────────────────────────────
+
+export const EnrollmentService = {
+  findAll:      ()               => EnrollmentRepository.findAll(),
+  findById:     (id)             => EnrollmentRepository.findById(id),
+  findByUserId: (userId)         => EnrollmentRepository.findByUserId(userId),
+  create:       (enrollment)     => EnrollmentRepository.create(enrollment),
+  update:       (id, enrollment) => EnrollmentRepository.update(id, enrollment),
+  deleteById:   (id)             => EnrollmentRepository.deleteById(id),
+
+  /** Retorna os cursos em que o usuário está matriculado. */
+  async getCoursesForUser(userId) {
+    const enrollments = await EnrollmentService.findByUserId(userId);
+    return enrollments.map(e => e.course).filter(Boolean);
   },
-  {
-    type: QuestionType.MULTIPLE_CHOICE,
-    label: 'Leia o código e responda',
-    prompt: 'Qual será o erro de tipagem no código abaixo?',
-    code: `<span class="kw">let</span> nome: <span class="ty">string</span> = <span class="str">\"Allan\"</span>;
-nome = <span class="num">42</span>; <span class="cmt">// ← aqui</span>`,
-    options: [
-      'Não há erro — TypeScript aceita qualquer valor',
-      'Erro: não é possível reatribuir uma variável',
-      'Erro: número não pode ser atribuído a uma variável do tipo string',
-      'Erro: falta ponto-e-vírgula'
-    ],
-    correct: 2
+};
+
+// ─── LessonProgress ───────────────────────────────────────────
+
+export const LessonProgressService = {
+  findAll:    ()               => LessonProgressRepository.findAll().then(list => list.map(makeLessonProgress)),
+  findById:   (id)             => LessonProgressRepository.findById(id).then(makeLessonProgress),
+  create:     (progress)       => LessonProgressRepository.create(progress),
+  update:     (id, progress)   => LessonProgressRepository.update(id, progress),
+  deleteById: (id)             => LessonProgressRepository.deleteById(id),
+
+  /** Marca uma lição como concluída. */
+  async complete(progressId) {
+    return LessonProgressService.update(progressId, {
+      status:      LessonProgressStatus.DONE,
+      completed:   true,
+      completedAt: new Date().toISOString(),
+    });
   },
-  {
-    type: QuestionType.SHORT_TEXT,
-    label: 'Complete com a palavra certa',
-    prompt: 'Em TypeScript, a palavra-chave usada para definir um tipo personalizado é ____.',
-    code: null,
-    hint: 'Dica: não é "interface". É uma só palavra.',
-    correct: 'type',
-    acceptedAnswers: ['type']
-  },
-  {
-    type: QuestionType.MATCHING,
-    label: 'Associe os tipos TypeScript às suas descrições',
-    prompt: 'Arraste cada tipo para sua descrição correta.',
-    pairs: [
-      { left: 'string', right: 'Texto e caracteres' },
-      { left: 'number', right: 'Valores numéricos' },
-      { left: 'boolean', right: 'Verdadeiro ou falso' },
-      { left: 'any', right: 'Desativa a tipagem' }
-    ]
-  }
-];
+};
 
-export function getLessonQuestion(index) {
-  return LESSON_QUESTIONS[index];
-}
+// ─── Streak ───────────────────────────────────────────────────
 
-export function getQuestionCount() {
-  return LESSON_QUESTIONS.length;
-}
+export const StreakService = {
+  findAll:        ()                 => StreakRepository.findAll().then(list => list.map(makeStreak)),
+  findById:       (id)               => StreakRepository.findById(id).then(makeStreak),
+  findAllByDays:  (days)             => StreakRepository.findAllByDays(days),
+  revokeDaysById: (id)               => StreakRepository.revokeDaysById(id),
+  setDaysByUserId:(userId, days)     => StreakRepository.setDaysByUserId(userId, days),
+};
 
-export function shuffle(array) {
-  const copy = [...array];
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
+// ─── Session ──────────────────────────────────────────────────
 
-export function formatElapsedTime(milliseconds) {
-  const seconds = Math.round(milliseconds / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const remaining = seconds % 60;
-  return `${minutes > 0 ? `${minutes}m ` : ''}${remaining}s`;
-}
+export const SessionService = {
+  findAll:    ()   => SessionRepository.findAll(),
+  findById:   (id) => SessionRepository.findById(id),
+  revoke:     (id) => SessionRepository.revoke(id),
+  refresh:    (id) => SessionRepository.refresh(id),
+  deleteById: (id) => SessionRepository.deleteById(id),
+};
 
-export function computeResult(correctCount, totalQuestions) {
-  const xp = 10 * correctCount;
-  const accuracy = totalQuestions ? Math.round((correctCount / totalQuestions) * 100) : 0;
-  const stars = accuracy >= 90 ? 3 : accuracy >= 60 ? 2 : 1;
-  return { xp, accuracy, stars };
-}
+// ─── Suggestion ───────────────────────────────────────────────
+
+export const SuggestionService = {
+  findAll:    ()                => SuggestionRepository.findAll(),
+  findById:   (id)              => SuggestionRepository.findById(id),
+  create:     (suggestion)      => SuggestionRepository.create(suggestion),
+  update:     (id, suggestion)  => SuggestionRepository.update(id, suggestion),
+  deleteById: (id)              => SuggestionRepository.deleteById(id),
+};

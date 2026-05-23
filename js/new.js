@@ -1,5 +1,8 @@
-import { initApp } from './controller.js';
+// ============================================================
+//  new.js  —  Ponto de entrada (equivalente ao main() do Spring)
+//  Só inicializa o controller. Nada mais.
+// ============================================================
 
-window.addEventListener('DOMContentLoaded', () => {
-  initApp();
-});
+import { init } from './controller.js';
+
+document.addEventListener('DOMContentLoaded', init);
