@@ -1,365 +1,412 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CodePath — Entrar</title>
-<link rel="stylesheet" href="css/login.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodePath — Entrar</title>
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
 
-<div class="bg">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-</div>
-
-<!-- ══ TELA DE LOGIN ════════════════════════════ -->
-<div class="page active" id="page-login">
-  <div class="split">
-
-    <!-- brand -->
-    <div class="panel-brand">
-      <div class="brand-logo">
-        <div class="brand-logo-icon">&lt;/&gt;</div>
-        <span class="brand-logo-text">CodePath</span>
-      </div>
-
-      <div class="brand-middle">
-        <div class="brand-tagline">Aprenda a programar de forma <em>inteligente.</em></div>
-        <div class="brand-desc">
-          Uma trilha personalizada que vai do zero ao profissional,
-          no ritmo certo pra você. Sem enrolação, só código.
-        </div>
-      </div>
-
-      <div class="brand-pills">
-        <div class="brand-pill">⚡ Lições rápidas</div>
-        <div class="brand-pill">🎯 Trilha guiada</div>
-        <div class="brand-pill">🔥 Streak diário</div>
-        <div class="brand-pill">🏆 Conquistas</div>
-      </div>
+  <body>
+    <div class="bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
     </div>
 
-    <!-- form -->
-    <div class="panel-form" style="position:relative;">
-      <div class="form-header">
-        <div class="form-title">Bem-vindo de volta 👋</div>
-        <div class="form-sub">Não tem conta? <a onclick="goTo('register')">Cadastre-se grátis</a></div>
-      </div>
-
-      <button class="btn-google" onclick="handleGoogle()">
-        <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-        Continuar com Google
-      </button>
-
-      <div class="divider">
-        <div class="divider-line"></div>
-        <div class="divider-text">ou entre com e-mail</div>
-        <div class="divider-line"></div>
-      </div>
-
-      <div class="field">
-        <label for="login-email">E-mail</label>
-        <div class="input-wrap">
-          <span class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          </span>
-          <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
-        </div>
-        <div class="field-error" id="login-email-err">Digite um e-mail válido.</div>
-      </div>
-
-      <div class="field">
-        <label for="login-pass">Senha</label>
-        <div class="input-wrap">
-          <span class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </span>
-          <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
-          <span class="input-eye" onclick="toggleEye('login-pass', this)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          </span>
-        </div>
-        <div class="field-error" id="login-pass-err">Digite sua senha.</div>
-      </div>
-
-      <div class="forgot">Esqueci minha senha</div>
-
-      <button class="btn-submit" id="btn-login" onclick="submitLogin()">
-        <span class="btn-label">Entrar</span>
-        <div class="spinner"></div>
-      </button>
-
-      <div class="success-overlay" id="login-success">
-        <div class="success-check">✅</div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══ TELA DE CADASTRO ═════════════════════════ -->
-<div class="page" id="page-register">
-  <div class="split">
-
-    <!-- brand -->
-    <div class="panel-brand">
-      <div class="brand-logo">
-        <div class="brand-logo-icon">&lt;/&gt;</div>
-        <span class="brand-logo-text">CodePath</span>
-      </div>
-
-      <div class="brand-middle">
-        <div class="brand-tagline">Comece sua jornada <em>hoje mesmo.</em></div>
-        <div class="brand-desc">
-          Crie sua conta gratuitamente e desbloqueie
-          trilhas de aprendizado que se adaptam ao seu nível e ritmo.
-        </div>
-      </div>
-
-      <div class="brand-pills">
-        <div class="brand-pill">✅ Grátis para começar</div>
-        <div class="brand-pill">📱 Aprenda em qualquer lugar</div>
-        <div class="brand-pill">🚀 Do zero ao job</div>
-      </div>
-    </div>
-
-    <!-- form -->
-    <div class="panel-form" style="position:relative;">
-      <div class="form-header">
-        <div class="form-title">Criar conta grátis 🚀</div>
-        <div class="form-sub">Já tem conta? <a onclick="goTo('login')">Entrar agora</a></div>
-      </div>
-
-      <button class="btn-google" onclick="handleGoogle()">
-        <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-        Cadastrar com Google
-      </button>
-
-      <div class="divider">
-        <div class="divider-line"></div>
-        <div class="divider-text">ou cadastre com e-mail</div>
-        <div class="divider-line"></div>
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <label for="reg-nome">Nome</label>
-          <div class="input-wrap">
-            <span class="input-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
-            </span>
-            <input type="text" id="reg-nome" placeholder="Seu nome">
+    <!-- ══ TELA DE LOGIN ════════════════════════════ -->
+    <div class="page active" id="page-login">
+      <div class="split">
+        <!-- brand -->
+        <div class="panel-brand">
+          <div class="brand-logo">
+            <div class="brand-logo-icon">&lt;/&gt;</div>
+            <span class="brand-logo-text">CodePath</span>
           </div>
-          <div class="field-error" id="reg-nome-err">Informe seu nome.</div>
+
+          <div class="brand-middle">
+            <div class="brand-tagline">
+              Aprenda a programar de forma <em>inteligente.</em>
+            </div>
+            <div class="brand-desc">
+              Uma trilha personalizada que vai do zero ao profissional, no ritmo
+              certo pra você. Sem enrolação, só código.
+            </div>
+          </div>
+
+          <div class="brand-pills">
+            <div class="brand-pill">⚡ Lições rápidas</div>
+            <div class="brand-pill">🎯 Trilha guiada</div>
+            <div class="brand-pill">🔥 Streak diário</div>
+            <div class="brand-pill">🏆 Conquistas</div>
+          </div>
         </div>
-        <div class="field">
-          <label for="reg-sobrenome">Sobrenome</label>
-          <div class="input-wrap">
-            <span class="input-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
-            </span>
-            <input type="text" id="reg-sobrenome" placeholder="Sobrenome">
+
+        <!-- form -->
+        <div class="panel-form" style="position: relative">
+          <div class="form-header">
+            <div class="form-title">Bem-vindo de volta 👋</div>
+            <div class="form-sub">
+              Não tem conta?
+              <a onclick="goTo('register')">Cadastre-se grátis</a>
+            </div>
+          </div>
+
+          <button class="btn-google" onclick="handleGoogle()">
+            <svg
+              class="google-icon"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                fill="#4285F4"
+              />
+              <path
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                fill="#34A853"
+              />
+              <path
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                fill="#FBBC05"
+              />
+              <path
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                fill="#EA4335"
+              />
+            </svg>
+            Continuar com Google
+          </button>
+
+          <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">ou entre com e-mail</div>
+            <div class="divider-line"></div>
+          </div>
+
+          <div class="field">
+            <label for="login-email">E-mail</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+              </span>
+              <input
+                type="email"
+                id="login-email"
+                placeholder="seu@email.com"
+                autocomplete="email"
+              />
+            </div>
+            <div class="field-error" id="login-email-err">
+              Digite um e-mail válido.
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="login-pass">Senha</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </span>
+              <input
+                type="password"
+                id="login-pass"
+                placeholder="••••••••"
+                autocomplete="current-password"
+              />
+              <span class="input-eye" onclick="toggleEye('login-pass', this)">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </span>
+            </div>
+            <div class="field-error" id="login-pass-err">Digite sua senha.</div>
+          </div>
+
+          <div class="forgot">Esqueci minha senha</div>
+
+          <button class="btn-submit" id="btn-login" onclick="doLogin()">
+            <span class="btn-label">Entrar</span>
+            <div class="spinner"></div>
+          </button>
+
+          <div class="success-overlay" id="login-success">
+            <div class="success-check">✅</div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="field">
-        <label for="reg-email">E-mail</label>
-        <div class="input-wrap">
-          <span class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          </span>
-          <input type="email" id="reg-email" placeholder="seu@email.com" autocomplete="email">
+    <!-- ══ TELA DE CADASTRO ═════════════════════════ -->
+    <div class="page" id="page-register">
+      <div class="split">
+        <!-- brand -->
+        <div class="panel-brand">
+          <div class="brand-logo">
+            <div class="brand-logo-icon">&lt;/&gt;</div>
+            <span class="brand-logo-text">CodePath</span>
+          </div>
+
+          <div class="brand-middle">
+            <div class="brand-tagline">
+              Comece sua jornada <em>hoje mesmo.</em>
+            </div>
+            <div class="brand-desc">
+              Crie sua conta gratuitamente e desbloqueie trilhas de aprendizado
+              que se adaptam ao seu nível e ritmo.
+            </div>
+          </div>
+
+          <div class="brand-pills">
+            <div class="brand-pill">✅ Grátis para começar</div>
+            <div class="brand-pill">📱 Aprenda em qualquer lugar</div>
+            <div class="brand-pill">🚀 Do zero ao job</div>
+          </div>
         </div>
-        <div class="field-error" id="reg-email-err">Digite um e-mail válido.</div>
-      </div>
 
-      <div class="field">
-        <label for="reg-pass">Senha</label>
-        <div class="input-wrap">
-          <span class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </span>
-          <input type="password" id="reg-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password" oninput="checkStrength(this.value)">
-          <span class="input-eye" onclick="toggleEye('reg-pass', this)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          </span>
+        <!-- form -->
+        <div class="panel-form" style="position: relative">
+          <div class="form-header">
+            <div class="form-title">Criar conta grátis 🚀</div>
+            <div class="form-sub">
+              Já tem conta? <a onclick="goTo('login')">Entrar agora</a>
+            </div>
+          </div>
+
+          <button class="btn-google" onclick="handleGoogle()">
+            <svg
+              class="google-icon"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                fill="#4285F4"
+              />
+              <path
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                fill="#34A853"
+              />
+              <path
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                fill="#FBBC05"
+              />
+              <path
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                fill="#EA4335"
+              />
+            </svg>
+            Cadastrar com Google
+          </button>
+
+          <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">ou cadastre com e-mail</div>
+            <div class="divider-line"></div>
+          </div>
+
+          <div class="field">
+            <label for="reg-nome">Nome</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="8" r="5" />
+                  <path d="M20 21a8 8 0 1 0-16 0" />
+                </svg>
+              </span>
+              <input type="text" id="reg-nome" placeholder="Seu nome" />
+            </div>
+            <div class="field-error" id="reg-nome-err">Informe seu nome.</div>
+          </div>
+
+          <div class="field">
+            <label for="reg-email">E-mail</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+              </span>
+              <input
+                type="email"
+                id="reg-email"
+                placeholder="seu@email.com"
+                autocomplete="email"
+              />
+            </div>
+            <div class="field-error" id="reg-email-err">
+              Digite um e-mail válido.
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="reg-pass">Senha</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </span>
+              <input
+                type="password"
+                id="reg-pass"
+                placeholder="Mínimo 8 caracteres"
+                autocomplete="new-password"
+                oninput="checkStrength(this.value)"
+              />
+              <span class="input-eye" onclick="toggleEye('reg-pass', this)">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </span>
+            </div>
+            <div class="strength-wrap" id="strengthWrap">
+              <div class="strength-bar-track">
+                <div class="strength-bar-fill" id="strengthBar"></div>
+              </div>
+              <div class="strength-label" id="strengthLabel"></div>
+            </div>
+            <div class="field-error" id="reg-pass-err">
+              Use pelo menos 8 caracteres.
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="reg-pass2">Confirmar senha</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="3" y="11" width="18" height="11" rx="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+              </span>
+              <input
+                type="password"
+                id="reg-pass2"
+                placeholder="Repita a senha"
+                autocomplete="new-password"
+              />
+              <span class="input-eye" onclick="toggleEye('reg-pass2', this)">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </span>
+            </div>
+            <div class="field-error" id="reg-pass2-err">
+              As senhas não coincidem.
+            </div>
+          </div>
+
+          <div class="terms">
+            Ao criar a conta você concorda com os <a>Termos de Uso</a> e a
+            <a>Política de Privacidade</a> do CodePath.
+          </div>
+
+          <button class="btn-submit" id="btn-register" onclick="doSignUp()">
+            <span class="btn-label">Criar minha conta</span>
+            <div class="spinner"></div>
+          </button>
+
+          <div class="success-overlay" id="register-success">
+            <div class="success-check">🎉</div>
+          </div>
         </div>
-        <div class="strength-wrap" id="strengthWrap">
-          <div class="strength-bar-track"><div class="strength-bar-fill" id="strengthBar"></div></div>
-          <div class="strength-label" id="strengthLabel"></div>
-        </div>
-        <div class="field-error" id="reg-pass-err">Use pelo menos 8 caracteres.</div>
-      </div>
-
-      <div class="field">
-        <label for="reg-pass2">Confirmar senha</label>
-        <div class="input-wrap">
-          <span class="input-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          </span>
-          <input type="password" id="reg-pass2" placeholder="Repita a senha" autocomplete="new-password">
-          <span class="input-eye" onclick="toggleEye('reg-pass2', this)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          </span>
-        </div>
-        <div class="field-error" id="reg-pass2-err">As senhas não coincidem.</div>
-      </div>
-
-      <div class="terms">
-        Ao criar a conta você concorda com os <a>Termos de Uso</a> e a <a>Política de Privacidade</a> do CodePath.
-      </div>
-
-      <button class="btn-submit" id="btn-register" onclick="submitRegister()">
-        <span class="btn-label">Criar minha conta</span>
-        <div class="spinner"></div>
-      </button>
-
-      <div class="success-overlay" id="register-success">
-        <div class="success-check">🎉</div>
       </div>
     </div>
 
-  </div>
-</div>
-
-<script>
-/* ── navigation ──────────────────────────────── */
-function goTo(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  clearErrors();
-}
-
-function clearErrors() {
-  document.querySelectorAll('.field-error').forEach(e => e.classList.remove('show'));
-  document.querySelectorAll('input').forEach(i => i.classList.remove('error'));
-}
-
-/* ── show/hide password ──────────────────────── */
-const eyeOpen  = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
-const eyeClosed = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
-
-function toggleEye(inputId, icon) {
-  const inp = document.getElementById(inputId);
-  const isPass = inp.type === 'password';
-  inp.type = isPass ? 'text' : 'password';
-  icon.innerHTML = isPass ? eyeClosed : eyeOpen;
-}
-
-/* ── password strength ───────────────────────── */
-function checkStrength(val) {
-  const wrap = document.getElementById('strengthWrap');
-  const bar  = document.getElementById('strengthBar');
-  const lbl  = document.getElementById('strengthLabel');
-
-  if (!val) { wrap.classList.remove('show'); return; }
-  wrap.classList.add('show');
-
-  let score = 0;
-  if (val.length >= 8)  score++;
-  if (/[A-Z]/.test(val)) score++;
-  if (/[0-9]/.test(val)) score++;
-  if (/[^A-Za-z0-9]/.test(val)) score++;
-
-  const levels = [
-    { w: '25%',  bg: '#fb2c36', txt: 'Muito fraca' },
-    { w: '50%',  bg: '#ff6900', txt: 'Fraca' },
-    { w: '75%',  bg: '#f59e0b', txt: 'Boa' },
-    { w: '100%', bg: '#009966', txt: 'Forte 💪' },
-  ];
-  const lvl = levels[score - 1] || levels[0];
-  bar.style.width      = lvl.w;
-  bar.style.background = lvl.bg;
-  lbl.textContent      = lvl.txt;
-  lbl.style.color      = lvl.bg;
-}
-
-/* ── validation helpers ──────────────────────── */
-function showErr(inputId, errId) {
-  document.getElementById(inputId).classList.add('error');
-  document.getElementById(errId).classList.add('show');
-}
-
-function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
-
-/* ── submit login ────────────────────────────── */
-function submitLogin() {
-  clearErrors();
-  const email = document.getElementById('login-email').value.trim();
-  const pass  = document.getElementById('login-pass').value;
-  let ok = true;
-
-  if (!isEmail(email)) { showErr('login-email', 'login-email-err'); ok = false; }
-  if (!pass)           { showErr('login-pass',  'login-pass-err');  ok = false; }
-  if (!ok) return;
-
-  const btn = document.getElementById('btn-login');
-  btn.classList.add('loading');
-
-  setTimeout(() => {
-    btn.classList.remove('loading');
-    document.getElementById('login-success').classList.add('show');
-    setTimeout(() => { document.getElementById('login-success').classList.remove('show'); }, 2200);
-  }, 1600);
-}
-
-/* ── submit register ─────────────────────────── */
-function submitRegister() {
-  clearErrors();
-  const nome  = document.getElementById('reg-nome').value.trim();
-  const email = document.getElementById('reg-email').value.trim();
-  const pass  = document.getElementById('reg-pass').value;
-  const pass2 = document.getElementById('reg-pass2').value;
-  let ok = true;
-
-  if (!nome)           { showErr('reg-nome',  'reg-nome-err');   ok = false; }
-  if (!isEmail(email)) { showErr('reg-email', 'reg-email-err');  ok = false; }
-  if (pass.length < 8) { showErr('reg-pass',  'reg-pass-err');   ok = false; }
-  if (pass !== pass2)  { showErr('reg-pass2', 'reg-pass2-err');  ok = false; }
-  if (!ok) return;
-
-  const btn = document.getElementById('btn-register');
-  btn.classList.add('loading');
-
-  setTimeout(() => {
-    btn.classList.remove('loading');
-    document.getElementById('register-success').classList.add('show');
-    setTimeout(() => { document.getElementById('register-success').classList.remove('show'); }, 2200);
-  }, 1800);
-}
-
-/* ── google (mock) ───────────────────────────── */
-function handleGoogle() {
-  const pages = document.querySelectorAll('.page.active');
-  pages.forEach(p => {
-    const overlay = p.querySelector('.success-overlay');
-    if (overlay) {
-      overlay.querySelector('.success-check').textContent = '✅';
-      overlay.classList.add('show');
-      setTimeout(() => overlay.classList.remove('show'), 2000);
-    }
-  });
-}
-
-/* ── enter key support ───────────────────────── */
-document.addEventListener('keydown', e => {
-  if (e.key !== 'Enter') return;
-  const loginActive = document.getElementById('page-login').classList.contains('active');
-  if (loginActive) submitLogin(); else submitRegister();
-});
-</script>
-</body>
+    <script src="./js/main_login.js" type="module" async></script>
+    <script src="./js/login.js" type="module" async></script>
+  </body>
 </html>
