@@ -1,3 +1,5 @@
+import { NewUser, EmailAndPassword } from "/js/modelo.js";
+
 const API_BASE_URL = "http://localhost:8080";
 
 /* =========================================================
@@ -30,6 +32,9 @@ async function request(endpoint, options = {}) {
  * ========================================================= */
 
 export async function signUp(data) {
+    if (!(data instanceof NewUser)) {
+        throw new Error("Os dados de cadastro devem ser uma instância de NewUser.");
+    }
     return request("/auth/signup", {
         method: "POST",
         body: JSON.stringify(data)
@@ -37,6 +42,9 @@ export async function signUp(data) {
 }
 
 export async function login(data) {
+    if (!(data instanceof EmailAndPassword)) {
+        throw new Error("Os dados de login devem ser uma instância de EmailAndPassword.");
+    }
     return request("/auth/login", {
         method: "POST",
         body: JSON.stringify(data)
@@ -44,6 +52,9 @@ export async function login(data) {
 }
 
 export async function me(token) {
+    if (!token) {
+        throw new Error("O token é obrigatório.");
+    }
     return request("/auth/me", {
         method: "POST",
         body: JSON.stringify({ token })

@@ -1,14 +1,17 @@
-import { login, getCourses } from "./api.js";
+import { login, getCourses, me } from "./api.js";
 import { state } from "./state.js";
+import { renderMain } from "./renderers/main.js";
 
 async function init() {
-    const data = await login("teste@email.com", "123");
+    const data = await me("teste@email.com", "123");
 
     state.token = data.token;
 
     state.courses = await getCourses(state.token);
 
-    renderCourses();
+    renderScreen('courses');
+    //renderApp (sidebar + main)
+    // renderMain(topbar, screens)
 }
 
 function renderCourses() {
