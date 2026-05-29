@@ -282,3 +282,23 @@ export function renderCatalogSearch() {
 
     return searchWrap;
 }
+
+export function renderCatalogGrid(catalogCards) {
+  if (catalogCards.constructor.name !== "Array"){
+    throw new Error("catalogCards deve ser um Array");
+  }
+
+  let grid = document.createElement('div');
+  grid.className = 'catalog-grid';
+  grid.id = 'catalogGrid';
+
+  catalogCards.forEach(card => {
+    if (card instanceof HTMLElement && card.classList.contains('catalog-card')) {
+      grid.appendChild(card);
+    } else {
+      console.warn("Elemento ignorado: não é um card de catálogo válido", card);
+    }
+  });
+
+  return grid;
+}
