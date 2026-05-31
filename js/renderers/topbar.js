@@ -14,7 +14,7 @@
   </header>
 */
 
-export function renderTopBar(courseName, courseLabel="Curso Ativo", hearts, xp) {
+export function renderTopBar(courseName, hearts, xp, courseLabel="Curso Ativo") {
   var topBar = document.createElement('header');
   topBar.className = 'topbar';
 
