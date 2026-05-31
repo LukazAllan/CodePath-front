@@ -1,6 +1,6 @@
-import { NewUser, EmailAndPassword } from "/js/modelo.js";
+import { NewUser, EmailAndPassword } from "./model.js";
 
-const API_BASE_URL = "http://localhost:8080";
+export const API_BASE_URL = "http://localhost:8080";
 
 /* =========================================================
  * Helper
@@ -24,7 +24,7 @@ async function request(endpoint, options = {}) {
         return null;
     }
 
-    return response.json();
+    return await response.json();
 }
 
 /* =========================================================
@@ -44,7 +44,7 @@ export async function signUp(data) {
 export async function login(data) {
     if (!(data instanceof EmailAndPassword)) {
         throw new Error("Os dados de login devem ser uma instância de EmailAndPassword.");
-    }
+    }   
     return request("/auth/login", {
         method: "POST",
         body: JSON.stringify(data)

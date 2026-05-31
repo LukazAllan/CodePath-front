@@ -57,3 +57,43 @@ export class Streak {
         this.days = days; // número de dias consecutivos
     }
 }
+
+export class SectionDTO{
+    constructor(title, subtitle, color, icon, ordem) {
+        this.title = title;
+        this.subtitle = subtitle;
+        this.color = color;
+        this.icon = icon;
+        this.ordem = ordem;
+    }
+
+    constructor() {
+        this.title = undefined;
+        this.subtitle = undefined;
+        this.color = undefined;
+        this.icon = undefined;
+        this.ordem = undefined;
+    }
+}
+
+export class LessonDTO {
+    constructor(id, name, content, ordem, active) {
+        if (typeof(id) == String) {
+            this.id = Number.parseInt(id);
+        } else {
+            this.id = id;
+        }
+        this.name = name;
+        this.content = content;
+        this.ordem = ordem;
+        this.active = active;
+    }
+
+    constructor() {
+        this.id = undefined;
+        this.name = undefined;
+        this.content = undefined;
+        this.ordem = undefined;
+        this.active = undefined;
+    }
+}

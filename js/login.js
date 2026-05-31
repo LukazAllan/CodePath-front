@@ -1,14 +1,12 @@
-import { API_BASE_URL, signUp } from "/js/api.js";
-import { NewUser } from "/js/model.js";
+import { API_BASE_URL, signUp } from "./api.js";
+import { NewUser } from "./model.js";
 
 async function doSignUp() {
   const name = document.getElementById("reg-nome").value;
   const email = document.getElementById("reg-email").value;
   const password = document.getElementById("reg-pass").value;
 
-  const res = await signUp(new NewUser(name, email, password));
-
-  const data = await res.json();
+  const data = await signUp(new NewUser(name, email, password));  
 
   console.log(data);
 
@@ -19,4 +17,5 @@ async function doSignUp() {
   window.location.href = "index.html";
 }
 
-window.doLogin = doLogin;
+//window.doLogin = doLogin;
+window.doSignUp = doSignUp;
