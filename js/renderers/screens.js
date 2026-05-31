@@ -1,5 +1,5 @@
 export function renderScreen(aprender, perfil, courses, settings, loading, licao, licaoResult, catalog) {
-    if (aprender.constructor.name !== "HTMLDivElement") {
+    /* if (aprender.constructor.name !== "HTMLDivElement") {
         throw new Error("O elemento 'aprender' deve ser um HTMLDivElement.");
     }
     if (perfil.constructor.name !== "HTMLDivElement") {
@@ -22,20 +22,52 @@ export function renderScreen(aprender, perfil, courses, settings, loading, licao
     }
     if (catalog.constructor.name !== "HTMLDivElement") {
         throw new Error("O elemento 'catalog' deve ser um HTMLDivElement.");
-    }
+    } */
 
     let screen = document.createElement('div');
     screen.className = 'screens';
     screen.id = 'screen-aprender';
 
-    screen.appendChild(aprender);
-    screen.appendChild(perfil);
-    screen.appendChild(courses);
-    screen.appendChild(settings);
-    screen.appendChild(loading);
-    screen.appendChild(licao);
-    screen.appendChild(licaoResult);
-    screen.appendChild(catalog);
+    try {
+        screen.appendChild(aprender);
+    } catch (err){
+        console.warn("aprender não foi adicionado!");
+    }
+    try {
+        screen.appendChild(perfil);
+    } catch (err){
+        console.warn("perfil não foi adicionado!");
+    }
+    try {
+        screen.appendChild(courses);
+    } catch (err){
+        console.warn("coursesnão foi adicionado!");
+    }
+    try {
+        screen.appendChild(settings);
+    } catch (err){
+        console.warn("settings não foi adicionado!");
+    }
+    try {
+        screen.appendChild(loading);
+    } catch (err){
+        console.warn("loading não foi adicionado!");
+    }
+    try {
+        screen.appendChild(licao);
+    } catch (err){
+        console.warn("licao não foi adicionado!");
+    }
+    try {
+        screen.appendChild(licaoResult);
+    } catch (err){
+        console.warn("licaoResult não foi adicionado!");
+    }
+    try {
+        screen.appendChild(catalog);
+    } catch (err){
+        console.warn("catalog não foi adicionado!");
+    }
 
     return screen;
 }
