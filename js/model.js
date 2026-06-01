@@ -31,6 +31,51 @@ export class Course {
         this.progress = progress; // valor entre 0 e 100
     }
 }
+export class MockCourse {
+    constructor(thisObject) {
+        this.id = thisObject.id;
+        this.name = thisObject.name;
+    }
+}
+
+export class MockLesson{
+    constructor(name, content, progress){
+        this.name = name;
+        this.content = content;
+        this.progress = progress;
+    }
+}
+
+export class MockUser {
+    constructor(name, email, password, xp, hearts, role, createdAt){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.xp = xp;
+        this.hearts = hearts;
+        this.role = role;
+        this.createdAt = createdAt;
+    }
+}
+export class MockSection{
+    constructor(title, subtitle, color, icon, ordem, lessons){
+        this.title= title;
+        this.subtitle = subtitle;
+        this.color, color;
+        this.icon=icon;
+        this.ordem=ordem;
+        this.lessons=lessons;
+    }
+}
+export class MockProgress{
+    constructor(status, stars, completed, completedAt){
+        this.status = status;
+        this.stars = stars;
+        this.completed = completed;
+        this.completedAt = completedAt;
+    }
+}
+
 
 export class Enrollment {
     constructor(id, courseId, userId, status) {
@@ -42,11 +87,15 @@ export class Enrollment {
 }
 
 export class LessonProgress {
-    constructor(id, enrollmentId, lessonId, completed) {
+    constructor(id,userId, lessonId, status, stars, enrollmentId, lessonId, completed) {
         this.id = id;
-        this.enrollmentId = enrollmentId;
+        this.userId = userId;
         this.lessonId = lessonId;
+        this.status = status;
+        this.stars = stars;
+        this.enrollmentId = enrollmentId;
         this.completed = completed; // boolean
+        this.completedAt = completedAt;
     }
 }
 
@@ -59,41 +108,45 @@ export class Streak {
 }
 
 export class SectionDTO{
-    constructor(title, subtitle, color, icon, ordem) {
-        this.title = title;
-        this.subtitle = subtitle;
-        this.color = color;
-        this.icon = icon;
-        this.ordem = ordem;
-    }
-
-    constructor() {
-        this.title = undefined;
-        this.subtitle = undefined;
-        this.color = undefined;
-        this.icon = undefined;
-        this.ordem = undefined;
+    constructor(thisObject){
+        this.title = thisObject.title;
+        this.subtitle = thisObject.subtitle;
+        this.color = thisObject.color;
+        this.icon = thisObject.icon;
+        this.ordem = thisObject.ordem;
     }
 }
 
 export class LessonDTO {
-    constructor(id, name, content, ordem, active) {
-        if (typeof(id) == String) {
-            this.id = Number.parseInt(id);
-        } else {
-            this.id = id;
-        }
-        this.name = name;
-        this.content = content;
-        this.ordem = ordem;
-        this.active = active;
+    constructor(thisObject){
+        this.sectionId = thisObject.sectionId;
+        this.name = thisObject.name;
+        this.content = thisObject.content;
+        this.ordem = thisObject.ordem;
     }
+}
 
-    constructor() {
-        this.id = undefined;
-        this.name = undefined;
-        this.content = undefined;
-        this.ordem = undefined;
-        this.active = undefined;
+export class CourseEntiretyResponseDTO {
+    constructor(course, sections, lessons) {
+        if (!course.constructor.name === "MockCourse"){
+            throw new Error("Course must be anObject.");
+        }
+        if (!sections.constructor.name === "Array"){
+            throw new Error("Sections must be an Array.");
+        }
+        if (!lessons.constructor.name === "Array"){
+            throw new Error("Lessons must be an Array.");
+        }
+        this.course = new MockCourse(course);
+        this.sections = new Array();
+        for (let section of sections){
+            this.sections.push(
+                new SectionDTO(section)
+            );
+        }
+        this.lessons = new Array();
+        for (let lesson of lessons){
+            this.lessons.push()
+        }
     }
 }

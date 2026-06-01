@@ -1,5 +1,5 @@
 /*
-<!-- ── APRENDER ─────────────────────────── -->
+    <!-- ── APRENDER ─────────────────────────── -->
     <div class="screen active" id="screen-aprender">
       <div class="xp-bar-wrap">
         <div class="xp-bar-label">
@@ -251,4 +251,45 @@ export function renderGap(height) {
     var gap = document.createElement('div');
     gap.style.height = `${height}px`;
     return gap;
+}
+
+/* 
+    let apiCourseResponse = {
+        course: new MockCourse({id:1, name:"Trilha Backend Java + Spring Boot"}),
+        sections:[
+            new SectionDTO(
+                {title:'Fundamentos de Backend', subtitle:'Conceitos iniciais do desenvolvimento backend', color:'green', icon:'⚙', ordem:1}
+            ),
+            new SectionDTO(
+                {title:'APIs e Arquitetura', subtitle:'Comunicação entre sistemas e padrões REST', color:'blue', icon:'🌐', ordem:2}
+            ),
+            new SectionDTO(
+                {title:'Spring Boot e Persistência', subtitle:'Persistência de dados e estrutura Java', color:'purple', icon:'🗄', ordem:3}
+            )
+        ],
+        lessons:[
+            // remember sectionId  for its index
+            new LessonDTO({sectionId:1, name:'Introdução ao Backend', content:'Conceitos básicos sobre backend, entidades e arquitetura.', ordem:1}),
+            new LessonDTO({sectionId:1, name:'Modelagem e Estrutura', content:'Modelagem de entidades, boilerplate e anotações.', ordem:2}),
+            new LessonDTO({sectionId:1, name:'Frameworks Java', content:'Introdução ao Spring Boot e Lombok.', ordem:3}),
+
+            new LessonDTO({sectionId:2, name:'APIs REST', content:'Conceitos fundamentais de APIs REST e RESTful.', ordem:1}),
+            new LessonDTO({sectionId:2, name:'HTTP e Comunicação', content:'Métodos HTTP, requests e responses.', ordem:2}),
+            new LessonDTO({sectionId:2, name:'Arquitetura de Sistemas', content:'Integração entre frontend e backend.', ordem:3}),
+
+            new LessonDTO({sectionId:3, name:'Persistência com JPA', content:'Uso de entidades e banco de dados.', ordem:1}),
+            new LessonDTO({sectionId:3, name:'Banco de Dados', content:'Conceitos de SQL, tabelas e relacionamentos.', ordem:2}),
+            new LessonDTO({sectionId:3, name:'Boas Práticas Backend', content:'Organização de código e separação em camadas.', ordem:3})
+        ]
+    };*/
+
+    
+export function renderAprender(courseEntirety) {
+  courseEntirety.lessons.sort((a, b) => b.ordem - a.ordem);
+  for (let section in courseEntirety.sections){
+    courseEntirety.sections[section]
+    for (let lesson of lessons){
+      a
+    }
+  }
 }

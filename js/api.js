@@ -1,5 +1,7 @@
+import { useId } from "react";
 import { NewUser, EmailAndPassword } from "./model.js";
 
+//export const API_BASE_URL = "http://10.116.83.211:8080";
 export const API_BASE_URL = "http://localhost:8080";
 
 /* =========================================================
@@ -304,6 +306,10 @@ export async function createLessonProgress(data) {
     });
 }
 
+export async function getLessonProgressByUserId(id) {
+    return request(`/lesson-progress/users/${id}`);
+}
+
 export async function updateLessonProgress(id, data) {
     return request(`/lesson-progress/${id}`, {
         method: "PUT",
@@ -411,3 +417,9 @@ export async function deleteSuggestion(id) {
         method: "DELETE"
     });
 }
+
+async function printAllUserInfo(userId, courseId) {
+    return request(`/front/user/${userId}/course/${courseId}`);
+}
+
+console.log(await printAllUserInfo('1', '1'));
