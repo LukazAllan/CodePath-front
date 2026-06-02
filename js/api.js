@@ -1,4 +1,3 @@
-import { useId } from "react";
 import { NewUser, EmailAndPassword } from "./model.js";
 
 //export const API_BASE_URL = "http://10.116.83.211:8080";
@@ -418,8 +417,17 @@ export async function deleteSuggestion(id) {
     });
 }
 
-async function printAllUserInfo(userId, courseId) {
-    return request(`/front/user/${userId}/course/${courseId}`);
+
+/* =========================================================
+ * FRONT 
+ * ========================================================= */
+
+async function printAllUserInfo(token, courseId) {
+    return request(`/front`, {
+        method: "POST",
+        body: JSON.stringify({ token: token, courseId: courseId })
+    });
 }
 
-console.log(await printAllUserInfo('1', '1'));
+
+console.log(await printAllUserInfo("259ad83a-c988-408b-bd59-80bb3044c896", 1));
