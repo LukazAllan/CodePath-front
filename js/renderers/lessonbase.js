@@ -34,7 +34,7 @@ export function renderLesson() {
     let closeBtn = document.createElement('button');
     closeBtn.className = 'lesson-close-btn';
     closeBtn.title = 'Sair da lição';
-    closeBtn.onclick = exitLesson;
+    closeBtn.onclick = () => { if (typeof window.exitLesson === 'function') window.exitLesson(); };
     closeBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
 
     let progressTrack = document.createElement('div');
@@ -72,7 +72,7 @@ export function renderLesson() {
     checkBtn.id = 'btnCheck';
     checkBtn.textContent = 'Verificar';
     checkBtn.disabled = true;
-    checkBtn.onclick = checkAnswer;
+    checkBtn.onclick = () => { if (typeof window.checkAnswer === 'function') window.checkAnswer(); };
 
     footer.appendChild(feedback);
     footer.appendChild(checkBtn);

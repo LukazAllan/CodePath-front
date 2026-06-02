@@ -26,7 +26,6 @@ export function renderScreen(aprender, perfil, courses, settings, loading, licao
 
     let screen = document.createElement('div');
     screen.className = 'screens';
-    screen.id = 'screen-aprender';
 
     try {
         screen.appendChild(aprender);
