@@ -105,8 +105,13 @@ export function renderProfile(profileAvatar, profileLevel, profileName, profileT
     streakCard.className = 'stat-card yellow';
     streakCard.innerHTML = `<div class="stat-card-icon">🔥</div><div class="stat-card-value">${streakDays}</div><div class="stat-card-label">Dias Seguidos</div>`;
 
+    let lessonsCard = document.createElement('div');
+    lessonsCard.className = 'stat-card blue';
+    lessonsCard.innerHTML = `<div class="stat-card-icon">✅</div><div class="stat-card-value">${lessonsDone}</div><div class="stat-card-label">Lições Feitas</div>`;
+
     statsGrid.appendChild(xpCard);
     statsGrid.appendChild(streakCard);
+    statsGrid.appendChild(lessonsCard);
 
     let streakSection = document.createElement('div');
     streakSection.className = 'streak-section';
@@ -135,9 +140,8 @@ export function renderProfile(profileAvatar, profileLevel, profileName, profileT
         weekStrip.appendChild(dayDot);
     });
 
-    streakSection.appendChild(weekStrip);
-
     streakSection.appendChild(streakTitle);
+    streakSection.appendChild(weekStrip);
 
     profileScreen.appendChild(heroSection);
 
