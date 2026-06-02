@@ -267,13 +267,13 @@ const apiCourseResponse = {
   course: { id: 1, name: "Trilha Backend Java + Spring Boot" },
   sections: [
     { title: "Fundamentos de Backend",    subtitle: "Conceitos iniciais do desenvolvimento backend", color: "green",  icon: "⚙",  ordem: 1 },
-    { title: "APIs e Arquitetura",         subtitle: "Comunicação entre sistemas e padrões REST",     color: "blue",   icon: "🌐", ordem: 2 },
+    { title: "APIs e Arquitetura",         subtitle: "Comunicação entre sistemas e padrões REST",     color: "purple",   icon: "🌐", ordem: 2 },
     { title: "Spring Boot e Persistência", subtitle: "Persistência de dados e estrutura Java",        color: "purple", icon: "🗄", ordem: 3 },
   ],
   lessons: [
     { sectionId: 0, name: "Introdução ao Backend",  content: "Conceitos básicos sobre backend, entidades e arquitetura.", ordem: 1 },
-    { sectionId: 0, name: "Modelagem e Estrutura",  content: "Modelagem de entidades, boilerplate e anotações.",           ordem: 2 },
-    { sectionId: 0, name: "Frameworks Java",        content: "Introdução ao Spring Boot e Lombok.",                        ordem: 3 },
+    { sectionId: 0, name: "Modelagem e Estrutura",  content: "Modelagem de entidades, boilerplate e anotações.",           ordem: 3 },
+    { sectionId: 0, name: "Frameworks Java",        content: "Introdução ao Spring Boot e Lombok.",                        ordem: 2 },
     { sectionId: 1, name: "APIs REST",              content: "Conceitos fundamentais de APIs REST e RESTful.",             ordem: 1 },
     { sectionId: 1, name: "HTTP e Comunicação",     content: "Métodos HTTP, requests e responses.",                        ordem: 2 },
     { sectionId: 1, name: "Arquitetura de Sistemas",content: "Integração entre frontend e backend.",                       ordem: 3 },
@@ -330,7 +330,8 @@ function renderSectionTrailPath(section, lessons, sectionIndex) {
   const trailPath = document.createElement("div");
   trailPath.className = "trail-path";
 
-  const rowPositions = ["pos-center", "pos-right", "pos-left"];
+  //const rowPositions = ["pos-center", "pos-right", "pos-left"];
+  const rowPositions = ["pos-center"];
   const stateMap     = ["done", "done", "active"];
 
   lessons.forEach((lesson, index) => {
@@ -345,6 +346,7 @@ function renderSectionTrailPath(section, lessons, sectionIndex) {
       trailPath.appendChild(connector);
     }
   });
+  trailPath.appendChild(renderGap(36));
 
   return trailPath;
 }
@@ -369,9 +371,10 @@ export function renderAprender(
     screen.appendChild(renderTrailSectionHeader(section.color, section.icon, section.title, section.subtitle));
     screen.appendChild(renderSectionTrailPath(section, sectionLessons, sectionIndex));
 
+    /* Adiciona botão na primeira seção
     if (sectionIndex === 0) {
       screen.appendChild(renderButtonStart());
-    }
+    } */
 
     screen.appendChild(renderGap(36));
   });

@@ -39,6 +39,8 @@
   </div>
 </aside> */
 
+import appState from "../state.js";
+
 export function renderSidebarLogo() {
     var sidebarLogo = document.createElement('div');
     sidebarLogo.className = 'sidebar-logo';
@@ -116,6 +118,7 @@ export function renderUser(userAvatar, userName, userLevel) {
       </svg>
       Sair
     `;
+    btnExit.onclick = appState.logout;
 
     sidebarUser.appendChild(userInfo);
     sidebarUser.appendChild(btnExit);
