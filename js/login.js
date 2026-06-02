@@ -1,5 +1,6 @@
 import { API_BASE_URL, signUp } from "./api.js";
 import { NewUser } from "./model.js";
+import { HREF } from "./href.js";
 
 async function doSignUp() {
   const name = document.getElementById("reg-nome").value;
@@ -14,7 +15,7 @@ async function doSignUp() {
   localStorage.setItem("token", data.token);
 
   // redireciona pro app
-  window.location.href = "index.html";
+  window.location.href = HREFS.HOME;
 }
 
 //window.doLogin = doLogin;

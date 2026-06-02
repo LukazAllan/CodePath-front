@@ -1,4 +1,5 @@
 import * as api from '../api.js';
+import { HREFS } from '../href.js';
 
 /**
  * Inicializa os dados do usuário e do curso ativo.
@@ -12,7 +13,7 @@ export async function renderInit() {
 
     if (!token) {
         console.info('Token não encontrado. Redirecionando para login.');
-        window.location.href = 'login.html';
+        window.location.href = HREFS.LOGIN;
         return null;
     }
 
@@ -32,7 +33,7 @@ export async function renderInit() {
     } catch (err) {
         console.error('Sessão inválida ou expirada:', err);
         localStorage.clear();
-        window.location.href = 'login.html';
+        window.location.href = HREFS.LOGIN;
         return null;
     }
 
