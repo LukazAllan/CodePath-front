@@ -61,7 +61,7 @@ export class MockSection{
     constructor(title, subtitle, color, icon, ordem, lessons){
         this.title= title;
         this.subtitle = subtitle;
-        this.color, color;
+        this.color = color;
         this.icon=icon;
         this.ordem=ordem;
         this.lessons=lessons;
@@ -87,14 +87,14 @@ export class Enrollment {
 }
 
 export class LessonProgress {
-    constructor(id,userId, lessonId, status, stars, enrollmentId, lessonId, completed) {
+    constructor(id, userId, lessonId, status, stars, enrollmentId, completed, completedAt) {
         this.id = id;
         this.userId = userId;
         this.lessonId = lessonId;
         this.status = status;
         this.stars = stars;
         this.enrollmentId = enrollmentId;
-        this.completed = completed; // boolean
+        this.completed = completed;
         this.completedAt = completedAt;
     }
 }
@@ -146,7 +146,7 @@ export class CourseEntiretyResponseDTO {
         }
         this.lessons = new Array();
         for (let lesson of lessons){
-            this.lessons.push()
+            this.lessons.push(new LessonDTO(lesson));
         }
     }
 }

@@ -91,19 +91,23 @@ export function renderSettings(ultimaAlteracaoSenha, emailUsuario, configSection
         section.rows.forEach(row => {
             let configRow = document.createElement('div');
             configRow.className = 'config-row';
+            if (row.toggle) {
+                configRow.onclick = () => { if (typeof window.toggleSwitch === 'function') window.toggleSwitch(configRow); };
+            }
 
             let rowLeft = document.createElement('div');
             rowLeft.className = 'config-row-left';
 
             let rowIcon = document.createElement('div');
             rowIcon.className = 'config-row-icon';
-            rowIcon.style.backgroundColor = getIconBackgroundColor(row.icon);
+            rowIcon.style.backgroundColor = row.background ?? '#f5f5f5';
             rowIcon.textContent = row.icon;
 
             let rowTextWrap = document.createElement('div');
             let rowLabel = document.createElement('div');
             rowLabel.className = 'config-row-label';
             rowLabel.textContent = row.label;
+            if (row.danger) rowLabel.style.color = 'var(--clr-red)';
             let rowSub = document.createElement('div');
             rowSub.className = 'config-row-sub';
             rowSub.textContent = row.sub;
@@ -112,9 +116,19 @@ export function renderSettings(ultimaAlteracaoSenha, emailUsuario, configSection
             rowTextWrap.appendChild(rowSub);
             rowLeft.appendChild(rowIcon);
             rowLeft.appendChild(rowTextWrap);
-
             configRow.appendChild(rowLeft);
-            configRow.appendChild(createChevron());
+
+            if (row.toggle) {
+                let toggle = document.createElement('div');
+                toggle.className = 'toggle' + (row.on ? ' on' : '');
+                configRow.appendChild(toggle);
+            } else {
+                let chevron = document.createElement('span');
+                chevron.className = 'config-chevron';
+                if (row.danger) chevron.style.color = 'var(--clr-red)';
+                chevron.textContent = '›';
+                configRow.appendChild(chevron);
+            }
 
             configSection.appendChild(configRow);
         });
